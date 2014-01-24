@@ -1,0 +1,1 @@
+This is an eclipse project. Import it from filesystem in eclipse to work on it.
