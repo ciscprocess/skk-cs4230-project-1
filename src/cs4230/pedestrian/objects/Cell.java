@@ -1,3 +1,4 @@
+package cs4230.pedestrian.objects;
 import java.util.PriorityQueue;
 
 

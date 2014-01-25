@@ -1,3 +1,4 @@
+package cs4230.pedestrian.objects;
 public class Stoplight extends Cell {
 	
 	private int lightIncrement, count, maxCounts;

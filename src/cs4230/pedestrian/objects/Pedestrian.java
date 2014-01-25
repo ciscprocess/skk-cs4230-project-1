@@ -1,3 +1,4 @@
+package cs4230.pedestrian.objects;
 
 public class Pedestrian implements Comparable{
 	
