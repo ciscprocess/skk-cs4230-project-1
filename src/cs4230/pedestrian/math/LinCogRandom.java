@@ -20,12 +20,17 @@ public class LinCogRandom {
 	}
 	
 	public LinCogRandom() {
-		this(10);
+		this(System.currentTimeMillis());
 	}
 	
 	public int nextInt(int upper) {
 		x = (a*x + c) % m;
 		return (int)((x >> 16) % upper);
+	}
+	
+	public double nextDouble() {
+		x = (a*x + c) % m;
+		return (double)((x >> 16)) / (m >> 16);
 	}
 
 }
