@@ -10,11 +10,17 @@ public class Cell {
 	protected int x,y;
 	protected PriorityQueue<Pedestrian> requestedMove;
 	protected static LinCogRandom random;
+	protected static Grid grid;
 	
 	//diffusion constant for dynamic field 
 	protected final double alpha = .5;
 	//decay constant for dynamic field
 	protected final double delta = .5;
+	
+	
+	public static void setGrid(Grid newGrid) {
+		grid = newGrid;
+	}
 	
 	public Cell(int x, int y, double mult) {
 		requestedMove = new PriorityQueue<Pedestrian>();
@@ -61,13 +67,15 @@ public class Cell {
 				int moveCell = random.nextInt(9);
 				int tempX,tempY;
 				//check all possible neighbors if the cell chosen is non-existant
+				//not uniformly random if all neighbors don't exist...
 				for(int j = 0; j < 9; j ++) {
 					moveCell = (moveCell+1)%9;
 					tempX = x + moveCell/3 -1;
 					tempY = y + moveCell%3 -1;
-					//TODO fix with cell grid wrapper class
-					if(tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length && cellGrid[tempX][tempY]!=null) {
-						//TODO get cell and incrementField();
+					Cell temp = grid.getCell(tempX, tempY);
+					if(temp!=null) {
+						temp.incrementField();
+						break;
 					}
 				}
 			}
@@ -78,6 +86,10 @@ public class Cell {
 		
 	}
 	
+	
+	/**
+	 * Move pedestrian of highest priority onto this cell
+	 */
 	public void handleCollisions() {
 		if(!requestedMove.isEmpty()) {
 			requestedMove.remove().setPosition(x, y);

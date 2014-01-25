@@ -17,6 +17,8 @@ public class Grid {
 	}
 	
 	public Cell getCell(int x, int y) {
+		if(x < 0 || y < 0 || x >= cells.length || y>=cells[1].length)
+			return null;
 		return cells[x][y];
 	}
 	
@@ -27,4 +29,5 @@ public class Grid {
 	public int getHeight() {
 		return cells[0].length;
 	}
+	
 }

@@ -2,14 +2,17 @@ package cs4230.pedestrian.objects;
 
 public class Pedestrian implements Comparable{
 	
-	private Cell[][] cellGrid;
 	private int x,y,moveIncrement,moveCount;
 	private double[][] moveField;
 	public double priority;
 	
+	private static Grid grid;
 	
-	public Pedestrian(Cell[][] cellGrid, double[][] moveField) {
-		this.cellGrid = cellGrid;
+	public static void setGrid(Grid newGrid) {
+		grid = newGrid;
+	}
+	
+	public Pedestrian(double[][] moveField) {
 		// TODO randomly assign speed (inverse of moveCount) based on distribution
 		moveIncrement = 10;
 		moveCount = 0;
@@ -25,7 +28,7 @@ public class Pedestrian implements Comparable{
 	 */
 	public void setPosition(int x, int y) {
 		
-		//attempt to increase probability of previous cell
+		//TODO attempt to increase probability of previous cell
 		
 		
 		this.x = x;
@@ -54,8 +57,8 @@ public class Pedestrian implements Comparable{
 				tempMove[i][j] = moveField[i][j];
 				int tempX = x+i-1;
 				int tempY = y+j-1;
-				double mult = (tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length && cellGrid[tempX][tempY]!=null) ? cellGrid[tempX][tempY].getMultiplier():0; 
-				tempMove[i][j] *= mult;
+				Cell temp = grid.getCell(tempX, tempY); 
+				tempMove[i][j] *= (temp!=null) ? temp.getMultiplier():0;
 				sum+=tempMove[i][j];
 			}
 		}
@@ -89,11 +92,11 @@ public class Pedestrian implements Comparable{
 		//sanity check
 		int tempX = x - count/3-1;
 		int tempY = y - count%3-1;
-		System.out.println("Sanity check pass: " + (tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length && cellGrid[tempX][tempY]!=null));
+		System.out.println("Sanity check pass: " + grid.getCell(tempX, tempY)!=null);
 		
 		//set priority and request move from cell
 		priority = tempMove[count/3][count%3];
-		cellGrid[tempX][tempY].enqueuePedestrian(this);
+		grid.getCell(tempX, tempY).enqueuePedestrian(this);
 	}
 
 	@Override
