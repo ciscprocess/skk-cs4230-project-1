@@ -14,6 +14,9 @@ public class Pedestrian implements Comparable{
 		moveIncrement = 10;
 		moveCount = 0;
 		this.moveField = moveField;
+		
+		x = -1;
+		y = -1;
 	}
 	
 	/**
@@ -21,6 +24,10 @@ public class Pedestrian implements Comparable{
 	 * Used by cell at end of each update
 	 */
 	public void setPosition(int x, int y) {
+		
+		//attempt to increase probability of previous cell
+		
+		
 		this.x = x;
 		this.y = y;
 	}
@@ -47,7 +54,7 @@ public class Pedestrian implements Comparable{
 				tempMove[i][j] = moveField[i][j];
 				int tempX = x+i-1;
 				int tempY = y+j-1;
-				double mult = (tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length) ? cellGrid[tempX][tempY].getMultiplier():0; 
+				double mult = (tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length && cellGrid[tempX][tempY]!=null) ? cellGrid[tempX][tempY].getMultiplier():0; 
 				tempMove[i][j] *= mult;
 				sum+=tempMove[i][j];
 			}
