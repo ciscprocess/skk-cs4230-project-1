@@ -1,11 +1,14 @@
 package cs4230.pedestrian.objects;
 
+import cs4230.pedestrian.math.LinCogRandom;
+
 public class Pedestrian implements Comparable{
 	
 	private int x,y,moveIncrement,moveCount;
 	private double[][] moveField;
 	public double priority;
 	
+	private static LinCogRandom random;
 	private static Grid grid;
 	
 	public static void setGrid(Grid newGrid) {
@@ -13,11 +16,12 @@ public class Pedestrian implements Comparable{
 	}
 	
 	public Pedestrian(double[][] moveField) {
-		// TODO randomly assign speed (inverse of moveCount) based on distribution
+		// TODO randomly assign speed (inverse of moveCount, normal distribution)
 		moveIncrement = 10;
 		moveCount = 0;
 		this.moveField = moveField;
-		
+		if(random==null)
+			random = new LinCogRandom();
 		x = -1;
 		y = -1;
 	}
@@ -28,8 +32,10 @@ public class Pedestrian implements Comparable{
 	 */
 	public void setPosition(int x, int y) {
 		
-		//TODO attempt to increase probability of previous cell
-		
+		//increments field of cell previously occupied by pedestrian
+		Cell temp = grid.getCell(x, y);
+		if(temp!=null)
+			temp.incrementField();
 		
 		this.x = x;
 		this.y = y;
@@ -82,8 +88,7 @@ public class Pedestrian implements Comparable{
 			}
 		}
 		
-		// TODO implement random number generator (uniform)
-		double move = Math.random();
+		double move = random.nextDouble();
 		int count = 0;
 		while(move < chances[count]) {
 			count++;
