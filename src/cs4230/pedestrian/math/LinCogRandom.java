@@ -15,7 +15,7 @@ public class LinCogRandom {
 	public LinCogRandom(long seed) {
 		x = seed;
 		a = 1103515245L;
-		m = 1L << 31L;
+		m = 1L << 32L;
 		c = 12345;
 	}
 	
@@ -25,8 +25,7 @@ public class LinCogRandom {
 	
 	public int nextInt(int upper) {
 		x = (a*x + c) % m;
-		x = (x < 0) ? -x : x;
-		return (int)(x % upper);
+		return (int)((x >> 16) % upper);
 	}
 
 }
