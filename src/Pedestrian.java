@@ -82,6 +82,9 @@ public class Pedestrian implements Comparable{
 		int tempX = x - count/3-1;
 		int tempY = y - count%3-1;
 		System.out.println("Sanity check pass: " + (tempX > -1 && tempX < cellGrid.length && tempY > -1 && tempY < cellGrid[0].length && cellGrid[tempX][tempY]!=null));
+		
+		//set priority and request move from cell
+		priority = tempMove[count/3][count%3];
 		cellGrid[tempX][tempY].enqueuePedestrian(this);
 	}
 

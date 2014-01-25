@@ -2,9 +2,9 @@ import java.util.PriorityQueue;
 
 
 public class Cell {
-	private double mult;
-	private int x,y;
-	private PriorityQueue<Pedestrian> requestedMove;
+	protected double mult;
+	protected int x,y;
+	protected PriorityQueue<Pedestrian> requestedMove;
 	
 	
 	public Cell(int x, int y, double mult) {
