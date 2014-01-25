@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 
 import cs4230.pedestrian.graphics.MainPanel;
+import cs4230.pedestrian.math.LinCogRandom;
 
 public class PedestrianSimulation {
 
@@ -13,8 +14,8 @@ public class PedestrianSimulation {
 		meFrame.setVisible(true);
 		
 		/*LinCogRandom rand = new LinCogRandom();
-		for (int i = 0; i < 100; i++) {
-			System.out.println(rand.nextInt(100));
+		for (int i = 0; i < 100000; i++) {
+			System.out.println(rand.nextDouble());
 		}*/
 		
 	}
