@@ -11,6 +11,7 @@ public class Cell {
 	protected PriorityQueue<Pedestrian> requestedMove;
 	protected static LinCogRandom random;
 	protected static Grid grid;
+	protected boolean isOccupied;
 	
 	//diffusion constant for dynamic field 
 	protected final double alpha = .5;
@@ -27,13 +28,14 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		this.mult = mult;
+		isOccupied = false;
 		if(random==null)
 			random = new LinCogRandom();
 	}
 	
 	
 	/**
-	 * Computes the 
+	 * Computes the relative weight of this cell based on attractiveness
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
@@ -41,7 +43,31 @@ public class Cell {
 	}
 	
 	public void enqueuePedestrian(Pedestrian ped) {
+		//do not accept move requests if I am already occupied
+		if(isOccupied)
+			return;
 		requestedMove.add(ped);
+	}
+	
+	/**
+	 * indicates a pedestrian is currently occupying this spot
+	 */
+	public boolean isOccupied() {
+		return isOccupied;
+	}
+	
+	/**
+	 * sets the cell to occupied
+	 */
+	public void setOccupied() {
+		isOccupied = true;
+	}
+	
+	/**
+	 * Sets the cell to unoccupied
+	 */
+	public void setVoid() {
+		isOccupied = false;
 	}
 	
 	/**

@@ -34,11 +34,15 @@ public class Pedestrian implements Comparable{
 		
 		//increments field of cell previously occupied by pedestrian
 		Cell temp = grid.getCell(x, y);
-		if(temp!=null)
+		if(temp!=null) {
 			temp.incrementField();
-		
+			//set old position to empty
+			temp.setVoid();
+		}		
 		this.x = x;
 		this.y = y;
+		temp = grid.getCell(x, y);
+		temp.setOccupied();
 	}
 	
 	/**
