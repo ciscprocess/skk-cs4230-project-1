@@ -30,7 +30,7 @@ public class Grid {
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
 				cells[x][y] = new Cell(x, y, rand.nextDouble());
-				if (rand.nextDouble() < 0.4) {
+				if (rand.nextDouble() < 0.4 && cells[x][y].mult > 0) {
 					cells[x][y].setOccupied();
 				}
 				

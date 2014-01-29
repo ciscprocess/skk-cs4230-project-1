@@ -1,3 +1,4 @@
+package cs4230.pedestrian.engine;
 import javax.swing.JFrame;
 
 import cs4230.pedestrian.graphics.MainPanel;
@@ -17,7 +18,7 @@ public class PedestrianSimulation {
 		for (int i = 0; i < 100000; i++) {
 			System.out.println(rand.nextDouble());
 		}*/
-		
+		TimeEngine engine = new TimeEngine();
 	}
 
 }
