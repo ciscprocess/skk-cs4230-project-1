@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import cs4230.pedestrian.math.LinCogRandom;
+
 /**
  * This class contains all the cells in the Automata simulation. 
  * For now, it is an organizational placeholder.
@@ -20,9 +22,20 @@ public class Grid {
 	public static final int HEIGHT = 60;
 	
 	private Cell[][] cells;
+	private LinCogRandom rand;
 	
-	private Grid() {
+	public Grid() {
+		rand = new LinCogRandom();
 		cells = new Cell[WIDTH][HEIGHT];
+		for (int x = 0; x < WIDTH; x++) {
+			for (int y = 0; y < HEIGHT; y++) {
+				cells[x][y] = new Cell(x, y, rand.nextDouble());
+				if (rand.nextDouble() < 0.4) {
+					cells[x][y].setOccupied();
+				}
+				
+			}
+		}
 	}
 	
 	public static Grid loadFromXLSX(String path) {
@@ -45,7 +58,7 @@ public class Grid {
 						
 						// TODO: Move these string constants to the Cell class, and expand them
 						if (name == "stoplight") {
-							newGrid.cells[x][y] = new Cell(x, y, 0.5);
+							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 1, 300);
 						} else if (name == "wall") {
 							
 						} else if (name == "grass") {

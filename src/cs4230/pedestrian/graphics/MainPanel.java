@@ -3,6 +3,8 @@ package cs4230.pedestrian.graphics;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import cs4230.pedestrian.objects.Grid;
+
 public class MainPanel extends JPanel {
 
 	/**
@@ -15,7 +17,7 @@ public class MainPanel extends JPanel {
 	
 	public MainPanel() {
 		cPanel = new ControlsPanel();
-		dPanel = new DisplayPanel();
+		dPanel = new DisplayPanel(new Grid());
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
 		add(dPanel);
