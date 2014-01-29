@@ -5,8 +5,8 @@ public class Statistics {
 	private static int spare;
 	private static boolean isSpareReady = false;
 	
-	public Statistics(){
-		random = new LinCogRandom();
+	public Statistics(LinCogRandom random){
+		this.random = random;
 	}
 	
 	/**

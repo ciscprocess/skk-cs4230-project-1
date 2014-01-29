@@ -1,6 +1,6 @@
 package cs4230.pedestrian.objects;
 
-import cs4230.pedestrian.math.LinCogRandom;
+import cs4230.pedestrian.math.*;
 
 public class Pedestrian implements Comparable{
 	
@@ -10,18 +10,19 @@ public class Pedestrian implements Comparable{
 	
 	private static LinCogRandom random;
 	private static Grid grid;
+	private static Statistics stats;
 	
 	public static void setGrid(Grid newGrid) {
 		grid = newGrid;
 	}
 	
 	public Pedestrian(double[][] moveField) {
-		// TODO randomly assign speed (inverse of moveCount, normal distribution)
-		moveIncrement = 10;
 		moveCount = 0;
 		this.moveField = moveField;
 		if(random==null)
 			random = new LinCogRandom();
+		stats = new Statistics(random);
+		moveIncrement = stats.normalInt(10, 1);
 		x = -1;
 		y = -1;
 	}
