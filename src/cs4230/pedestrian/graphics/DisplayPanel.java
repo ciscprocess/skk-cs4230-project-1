@@ -16,25 +16,32 @@ import cs4230.pedestrian.objects.Grid;
 public class DisplayPanel extends JPanel {
 	private static final long serialVersionUID = -5184830046918043282L;
 	private static final int TILE_PX = 40;
-	private Grid grid;
+	private static Grid grid;
 	private BufferedImage ground;
 	private BufferedImage particleLayer;
 	private BufferedImage cellLayer;
 	
-
-	public DisplayPanel(Grid grid) {
+	public static void setGrid(Grid toSet) {
+		grid = toSet;
+	}
+	
+	public DisplayPanel() {
 		Dimension size = new Dimension(600, 600);
 		setPreferredSize(size);
-		this.grid = grid;
 		this.ground = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.particleLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.cellLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		initializeGround();
+		
+	}
+	
+	public void update() {
 		clearParticleLayer();
 		clearCellLayer();
 		
 		drawPedestrians();
 		drawCells();
+		repaint();
 	}
 	
 	private void initializeGround() {
@@ -55,13 +62,14 @@ public class DisplayPanel extends JPanel {
 	
 	private void clearParticleLayer() {
 		Graphics lgfx = this.particleLayer.getGraphics();
-		Composite old = ((Graphics2D)lgfx).getComposite();
-		((Graphics2D)lgfx).setComposite(AlphaComposite.Clear);
-		lgfx.fillRect(0, 0, particleLayer.getWidth(), particleLayer.getWidth());
-		((Graphics2D)lgfx).setComposite(old);
+		bufferToClear((Graphics2D) lgfx);
 	}
 	
 	private void drawPedestrians() {
+		if (grid == null) {
+			return;
+		}
+		
 		Graphics plgfx = particleLayer.getGraphics();
 		plgfx.setColor(Color.RED);
 		for (int x = 0; x < Grid.WIDTH; x++) {
@@ -75,19 +83,26 @@ public class DisplayPanel extends JPanel {
 	}
 	
 	private void clearCellLayer() {
-		Graphics lgfx = this.cellLayer.getGraphics();
-		Composite old = ((Graphics2D)lgfx).getComposite();
-		((Graphics2D)lgfx).setComposite(AlphaComposite.Clear);
-		lgfx.fillRect(0, 0, cellLayer.getWidth(), cellLayer.getWidth());
-		((Graphics2D)lgfx).setComposite(old);
+		Graphics lgfx = this.particleLayer.getGraphics();
+		bufferToClear((Graphics2D) lgfx);
+	}
+	
+	private void bufferToClear(Graphics2D aGfx) {
+		Composite translucent = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
+		aGfx.setComposite(translucent);
+		aGfx.fillRect(0, 0, this.getWidth(), this.getHeight());
 	}
 	
 	private void drawCells() {
+		if (grid == null) {
+			return;
+		}
+		
 		Graphics cgfx = cellLayer.getGraphics();
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Cell cell = grid.getCell(x, y);
-				int green = (int)Math.round(255*cell.getMultiplier());
+				int green = (int)Math.round(Math.min(255*cell.getMultiplier(), 255));
 				Color col = new Color(0, green, 0);
 				cgfx.setColor(col);
 				cgfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);

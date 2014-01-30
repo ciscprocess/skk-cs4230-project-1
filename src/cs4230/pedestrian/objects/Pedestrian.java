@@ -34,7 +34,7 @@ public class Pedestrian implements Comparable{
 	public void setPosition(int x, int y) {
 		
 		//increments field of cell previously occupied by pedestrian
-		Cell temp = grid.getCell(x, y);
+		Cell temp = grid.getCell(this.x, this.y);
 		if(temp!=null) {
 			temp.incrementField();
 			//set old position to empty
@@ -95,17 +95,17 @@ public class Pedestrian implements Comparable{
 		
 		double move = random.nextDouble();
 		int count = 0;
-		while(move < chances[count]) {
+		while(move > chances[count] && (count < chances.length - 1)) {
 			count++;
 		}
 		
 		//sanity check
-		int tempX = x - count/3-1;
-		int tempY = y - count%3-1;
-		System.out.println("Sanity check pass: " + grid.getCell(tempX, tempY)!=null);
+		int tempX = x - (count % 3 - 1);
+		int tempY = y - (count / 3 - 1);
+		System.out.println("Sanity check pass: " + (grid.getCell(tempX, tempY) != null));
 		
 		//set priority and request move from cell
-		priority = tempMove[count/3][count%3];
+		priority = tempMove[count / 3][count % 3];
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
 	}
 

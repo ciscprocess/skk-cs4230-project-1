@@ -13,12 +13,6 @@ public class PedestrianSimulation {
 		meFrame.add(panel);
 		meFrame.pack();
 		meFrame.setVisible(true);
-		
-		/*LinCogRandom rand = new LinCogRandom();
-		for (int i = 0; i < 100000; i++) {
-			System.out.println(rand.nextDouble());
-		}*/
-		TimeEngine engine = new TimeEngine();
 	}
 
 }
