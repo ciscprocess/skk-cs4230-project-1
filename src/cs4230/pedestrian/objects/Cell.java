@@ -81,7 +81,8 @@ public class Cell {
 	 * Handles pedestrian collision and updates the dynamic field values
 	 */
 	public void update() {
-		
+			
+		// update dynamic field
 		int newDynamic = 0;
 		for(int i = 0; i < dynamic; i++) {
 			//decay
@@ -89,7 +90,7 @@ public class Cell {
 				newDynamic++;
 			}
 			//disperse
-			if(random.nextDouble() > alpha) {
+			if(random.nextDouble() < alpha) {
 				int moveCell = random.nextInt(9);
 				int tempX,tempY;
 				//check all possible neighbors if the cell chosen is non-existant
@@ -108,6 +109,7 @@ public class Cell {
 		}
 		dynamic = newDynamic;
 		
+		//update pedestrians on top of field
 		this.handleCollisions();
 		
 	}

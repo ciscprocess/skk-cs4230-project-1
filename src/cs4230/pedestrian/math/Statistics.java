@@ -32,4 +32,24 @@ public class Statistics {
 	    }
 	}
 	
+	/**
+	 * Performs a Chi-Square test of randomness for the random number generator
+	 */
+	public static void main(String[] args) {
+		LinCogRandom rand = new LinCogRandom();
+		int n = 100000;
+		int k = n/100;
+		int[] bins = new int[k];
+		int max = 1000;
+		for(int i = 0; i < n; i++) {
+			bins[(int)(rand.nextInt(max)/(double)max*k)]++;
+		}
+		double chi2 = 0;
+		for(int i = 0; i < k; i++) {
+			chi2 += Math.pow(bins[i]-(double)(n/k),2) / (n/k);
+		}
+		System.out.println("Expected is: " + n/k);
+		System.out.println("Chi-Square is: " + chi2);
+		System.out.println("Critical value is: " + 1106);
+	}
 }
