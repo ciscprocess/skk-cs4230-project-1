@@ -5,7 +5,7 @@ import cs4230.pedestrian.math.LinCogRandom;
 
 
 public class Cell {
-	protected double mult;
+	protected double staticMult,currentMult;
 	protected int dynamic;
 	protected int x,y;
 	protected PriorityQueue<Pedestrian> requestedMove;
@@ -14,9 +14,13 @@ public class Cell {
 	protected boolean isOccupied;
 	
 	//diffusion constant for dynamic field 
-	protected final double alpha = .5;
+	protected final double alpha = .01;
 	//decay constant for dynamic field
-	protected final double delta = .5;
+	protected final double delta = .2;
+	//sensitivity constant for dynamic field 
+	protected final double Kd = .5;
+	//sensitivity constant for static field
+	protected final double Ks = 1;
 	
 	
 	public static void setGrid(Grid newGrid) {
@@ -27,10 +31,11 @@ public class Cell {
 		requestedMove = new PriorityQueue<Pedestrian>();
 		this.x = x;
 		this.y = y;
-		this.mult = mult;
+		this.staticMult = mult;
 		isOccupied = false;
 		if(random==null)
 			random = new LinCogRandom();
+		currentMult = staticMult;
 	}
 	
 	
@@ -39,7 +44,7 @@ public class Cell {
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (mult+dynamic);
+		return currentMult;
 	}
 	
 	public void enqueuePedestrian(Pedestrian ped) {
@@ -108,6 +113,9 @@ public class Cell {
 			}
 		}
 		dynamic = newDynamic;
+		
+		//update movement weighting for this cell
+		currentMult = (staticMult<=0) ? 0:Math.exp(staticMult*Ks)*Math.exp(dynamic*Kd);
 		
 		//update pedestrians on top of field
 		this.handleCollisions();
