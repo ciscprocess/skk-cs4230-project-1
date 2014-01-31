@@ -98,7 +98,7 @@ public class Pedestrian implements Comparable{
 		while(move > chances[count] && (count < chances.length - 1)) {
 			count++;
 		}
-		
+		count--;
 		//sanity check
 		int tempX = x - (count % 3 - 1);
 		int tempY = y - (count / 3 - 1);
