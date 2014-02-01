@@ -115,7 +115,7 @@ public class Pedestrian implements Comparable{
 		int tempX = x - (count / 3 - 1);
 		int tempY = y - (count % 3 - 1);
 		System.out.println("Sanity check pass: " + (grid.getCell(tempX, tempY) != null));
-		
+
 		//set priority and request move from cell
 		priority = tempMove[count / 3][count % 3];
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
