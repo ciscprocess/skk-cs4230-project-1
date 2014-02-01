@@ -14,9 +14,13 @@ public class Cell {
 	protected boolean isOccupied;
 	
 	//diffusion constant for dynamic field 
-	protected final double alpha = 0.8;
+	protected final double alpha = .01;
 	//decay constant for dynamic field
-	protected final double delta = .1;
+	protected final double delta = .2;
+	//sensitivity constant for dynamic field 
+	protected final double Kd = .5;
+	//sensitivity constant for static field
+	protected final double Ks = 1;
 	
 	
 	public static void setGrid(Grid newGrid) {
