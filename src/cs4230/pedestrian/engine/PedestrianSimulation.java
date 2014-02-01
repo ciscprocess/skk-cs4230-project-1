@@ -14,5 +14,4 @@ public class PedestrianSimulation {
 		meFrame.pack();
 		meFrame.setVisible(true);
 	}
-
 }
