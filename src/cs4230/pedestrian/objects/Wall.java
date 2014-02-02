@@ -24,7 +24,7 @@ public class Wall extends Cell {
 	 * We can never have a Wall be occupied.
 	 */
 	public void setOccupied() {
-		isOccupied = false;
+		isOccupied = true;
 	}
 	
 	@Override
