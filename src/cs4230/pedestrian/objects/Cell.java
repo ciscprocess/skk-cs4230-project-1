@@ -1,11 +1,16 @@
 package cs4230.pedestrian.objects;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.PriorityQueue;
 
+import cs4230.pedestrian.graphics.DisplayPanel;
 import cs4230.pedestrian.math.LinCogRandom;
+import cs4230.pedestrian.math.Statistics;
 
 
 public class Cell {
 	protected double mult;
+	protected double staticMult;
 	protected int dynamic;
 	protected int x,y;
 	protected PriorityQueue<Pedestrian> requestedMove;
@@ -13,10 +18,12 @@ public class Cell {
 	protected static Grid grid;
 	protected boolean isOccupied;
 	
+	public static final int TILE_PX = DisplayPanel.TILE_PX;
+	
 	//diffusion constant for dynamic field 
-	protected final double alpha = .01;
+	protected final double alpha = .8;
 	//decay constant for dynamic field
-	protected final double delta = .2;
+	protected final double delta = 0.2;
 	//sensitivity constant for dynamic field 
 	protected final double Kd = .5;
 	//sensitivity constant for static field
@@ -37,6 +44,12 @@ public class Cell {
 			random = new LinCogRandom();
 	}
 	
+	public void draw(Graphics gfx) {
+		int green = (int)(255*Statistics.sigmoid(getMultiplier()));
+		Color col = new Color(0, green, 0);
+		gfx.setColor(col);
+		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+	}
 	
 	/**
 	 * Computes the relative weight of this cell based on attractiveness

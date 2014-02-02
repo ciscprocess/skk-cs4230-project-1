@@ -42,16 +42,21 @@ public class Statistics {
 	public static void main(String[] args) {
 		LinCogRandom rand = new LinCogRandom();
 		int n = 100000;
-		int k = n/100;
+		int k = 1000;
 		int[] bins = new int[k];
 		int max = 1000;
+		
 		for(int i = 0; i < n; i++) {
 			bins[(int)(rand.nextInt(max)/(double)max*k)]++;
 		}
+		
 		double chi2 = 0;
-		for(int i = 0; i < k; i++) {
-			chi2 += Math.pow(bins[i]-(double)(n/k),2) / (n/k);
+		for (int i = 0; i < k; i++) {
+			double number = Math.pow(bins[i]-(double)(n/k),2) / (n/k);
+			System.out.println("Number: "  + number);
+			chi2 += number;
 		}
+		
 		System.out.println("Expected is: " + n/k);
 		System.out.println("Chi-Square is: " + chi2);
 		System.out.println("Critical value is: " + 1106);

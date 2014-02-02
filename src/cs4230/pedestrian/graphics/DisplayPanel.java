@@ -16,7 +16,7 @@ import cs4230.pedestrian.objects.Grid;
 
 public class DisplayPanel extends JPanel {
 	private static final long serialVersionUID = -5184830046918043282L;
-	private static final int TILE_PX = 20;
+	public static final int TILE_PX = 30;
 	private static Grid grid;
 	private BufferedImage ground;
 	private BufferedImage particleLayer;
@@ -103,10 +103,7 @@ public class DisplayPanel extends JPanel {
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Cell cell = grid.getCell(x, y);
-				int green = (int)(255*Statistics.sigmoid(cell.getMultiplier()));
-				Color col = new Color(0, green, 0);
-				cgfx.setColor(col);
-				cgfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+				cell.draw(cgfx);
 			}
 		}
 	}

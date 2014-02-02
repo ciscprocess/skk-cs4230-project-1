@@ -18,8 +18,8 @@ import cs4230.pedestrian.math.LinCogRandom;
  */
 public class Grid {
 	
-	public static final int WIDTH = 60;
-	public static final int HEIGHT = 60;
+	public static final int WIDTH = 20;
+	public static final int HEIGHT = 20;
 	
 	private Cell[][] cells;
 	private LinCogRandom rand;

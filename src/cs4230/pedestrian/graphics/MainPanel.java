@@ -17,9 +17,9 @@ public class MainPanel extends JPanel {
 	private DisplayPanel dPanel;
 	
 	public MainPanel() {
-		cPanel = new ControlsPanel();
 		dPanel = new DisplayPanel();
 		TimeEngine engine = new TimeEngine(dPanel);
+		cPanel = new ControlsPanel(engine);
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
 		add(dPanel);

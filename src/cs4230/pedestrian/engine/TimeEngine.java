@@ -28,6 +28,10 @@ public class TimeEngine implements ActionListener {
 		ticker.start();
 	}
 	
+	public Timer getTicker() {
+		return ticker;
+	}
+	
 	/**
 	 * The game updates here.
 	 */
