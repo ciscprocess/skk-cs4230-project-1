@@ -23,8 +23,9 @@ public class Wall extends Cell {
 	 * sets the cell to occupied
 	 * We can never have a Wall be occupied.
 	 */
-	public void setOccupied() {
-		isOccupied = true;
+	public void setOccupied(Particle occupant) {
+		super.setOccupied(occupant);
+		System.out.println("Warning: Setting a Wall as occupied.");
 	}
 	
 	@Override

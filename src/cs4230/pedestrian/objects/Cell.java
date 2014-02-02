@@ -17,7 +17,9 @@ public class Cell {
 	protected static LinCogRandom random;
 	protected static Grid grid;
 	protected boolean isOccupied;
-	
+	protected Particle occupant;
+
+
 	public static final int TILE_PX = DisplayPanel.TILE_PX;
 	
 	//diffusion constant for dynamic field 
@@ -76,8 +78,9 @@ public class Cell {
 	/**
 	 * sets the cell to occupied
 	 */
-	public void setOccupied() {
+	public void setOccupied(Particle occupant) {
 		isOccupied = true;
+		this.occupant = occupant;
 	}
 	
 	/**
@@ -85,6 +88,15 @@ public class Cell {
 	 */
 	public void setVoid() {
 		isOccupied = false;
+		this.occupant = null;
+	}
+	
+	/**
+	 * getter for the field "occupant"
+	 * @return the occupant
+	 */
+	public Particle getOccupant() {
+		return occupant;
 	}
 	
 	/**

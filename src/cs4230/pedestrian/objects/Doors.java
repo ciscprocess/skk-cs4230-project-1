@@ -6,7 +6,8 @@ import java.util.PriorityQueue;
 public class Doors {
 	private static ArrayList<Pedestrian> exited;
 	private static PriorityQueue<Pedestrian> queuedPeople;
-	int[] x,y;
+	private static ArrayList<Door> objects = new ArrayList<Door>();
+	private int[] x,y;
 	private static Grid grid;
 	
 	/**
@@ -19,6 +20,11 @@ public class Doors {
 			System.out.println("You need the same number of x and y values...");
 			return;
 		}
+		
+		for (int i = 0; i < x.length; i++) {
+			objects.add(new Door(x[i], y[i], 1));
+		}
+		
 		this.x = x;
 		this.y = y;
 		Doors.grid = grid;
@@ -44,10 +50,13 @@ public class Doors {
 	 * places a person at the exit square of this door if it is not occupied
 	 */
 	public void egress() {
+		if (queuedPeople.size() == 0) {
+			return;
+		}
 		for(int i = 0; i < x.length; i++) {
-			if(!grid.getCell(x[i], y[i]).isOccupied()) {
+			if(!grid.getCell(x[i] + 1, y[i]).isOccupied()) {
 				Pedestrian temp = queuedPeople.remove();
-				temp.setPosition(x[i], y[i]);
+				temp.setPosition(x[i] + 1, y[i]);
 				exited.add(temp);
 			}
 		}

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import cs4230.pedestrian.math.Statistics;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
+import cs4230.pedestrian.objects.Particle;
 
 public class DisplayPanel extends JPanel {
 	private static final long serialVersionUID = -5184830046918043282L;
@@ -72,12 +73,12 @@ public class DisplayPanel extends JPanel {
 		}
 		
 		Graphics plgfx = particleLayer.getGraphics();
-		plgfx.setColor(Color.RED);
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Cell cell = grid.getCell(x, y);
 				if (cell.isOccupied()) {
-					plgfx.fillOval(x * TILE_PX + 3, y * TILE_PX + 3, TILE_PX - 6, TILE_PX - 6);
+					Particle todraw = cell.getOccupant();
+					todraw.draw(plgfx);
 				}
 			}
 		}
