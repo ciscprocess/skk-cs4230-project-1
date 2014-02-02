@@ -115,6 +115,9 @@ public class Cell {
 					moveCell = (moveCell+1)%9;
 					tempX = x + moveCell/3 -1;
 					tempY = y + moveCell%3 -1;
+					if (grid == null) {
+						System.out.println("We have a problem.");
+					}
 					Cell temp = grid.getCell(tempX, tempY);
 					if(temp!=null) {
 						temp.incrementField();

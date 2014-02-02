@@ -118,6 +118,13 @@ public class Pedestrian implements Comparable{
 
 		//set priority and request move from cell
 		priority = tempMove[count / 3][count % 3];
+		if (tempX >= Grid.WIDTH || tempY >= Grid.HEIGHT || tempX < 0 || tempY < 0) {
+			return;
+		}
+		
+		if (grid.getCell(tempX, tempY) == null) {
+			System.out.println("We have another problem.");
+		}
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
 	}
 

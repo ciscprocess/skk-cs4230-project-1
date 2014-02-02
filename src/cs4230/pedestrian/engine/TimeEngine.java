@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.Timer;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
+import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
 import cs4230.pedestrian.objects.Pedestrian;
 
@@ -16,15 +17,16 @@ public class TimeEngine implements ActionListener {
 	private ArrayList<Pedestrian> peds;
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
-		ticker = new Timer(100, this);
-		gameGrid = new Grid();
+		ticker = new Timer(30, this);
+		gameGrid = Grid.loadFromXLSX("C:\\Users\\Nathan\\git\\skk-cs4230-project-1\\Map.xlsx");
 		Pedestrian.setGrid(gameGrid);
 		DisplayPanel.setGrid(gameGrid);
+		Cell.setGrid(gameGrid);
 		dPanel = panel;
 		peds = new ArrayList<Pedestrian>(); 
 		peds.add(new Pedestrian(Pedestrian.generateUniform()));
 		Pedestrian ourFriend = peds.get(0);
-		ourFriend.setPosition(14, 14);
+		ourFriend.setPosition(3, 3);
 		ticker.start();
 	}
 	

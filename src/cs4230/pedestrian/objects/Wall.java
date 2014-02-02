@@ -1,8 +1,21 @@
 package cs4230.pedestrian.objects;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
+import cs4230.pedestrian.math.Statistics;
+
 public class Wall extends Cell {
-	public Wall(int x, int y, double mult) {
+	public Wall(int x, int y) {
 		super(x, y, 0);
+	}
+	
+	@Override
+	public void draw(Graphics gfx) {
+		int red = (int)(255*Statistics.sigmoid(getMultiplier()));
+		Color col = new Color(red, 0, 0);
+		gfx.setColor(col);
+		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
 	}
 	
 	@Override
@@ -12,6 +25,18 @@ public class Wall extends Cell {
 	 */
 	public void setOccupied() {
 		isOccupied = false;
+	}
+	
+	@Override
+	public void incrementField() {
+		dynamic = 0;
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		this.mult = 0;
+		this.dynamic = 0;
 	}
 
 }

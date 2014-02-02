@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -27,39 +28,41 @@ public class Grid {
 	public Grid() {
 		rand = new LinCogRandom();
 		cells = new Cell[WIDTH][HEIGHT];
-		Cell.setGrid(this);
-		for (int x = 0; x < WIDTH; x++) {
-			for (int y = 0; y < HEIGHT; y++) {
-				cells[x][y] = new Cell(x, y, rand.nextDouble());
-			}
-		}
+		//Cell.setGrid(this);
+		//for (int x = 0; x < WIDTH; x++) {
+			//for (int y = 0; y < HEIGHT; y++) {
+				//cells[x][y] = new Cell(x, y, rand.nextDouble());
+			//}
+		//}
 	}
 	
 	public static Grid loadFromXLSX(String path) {
 		Grid newGrid = new Grid();
+		LinCogRandom rand = new LinCogRandom();
 		
 		try {
 			FileInputStream file = new FileInputStream(new File(path));
-			XSSFWorkbook workbook = new XSSFWorkbook (file);
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> iter = sheet.iterator();
 			int x = 0, y = 0;
-			while (iter.hasNext()) {
+			while (iter.hasNext() && x < 20) {
+				y = 0;
 				Row currentRow = iter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
 				
-				while (colIter.hasNext()) {
+				while (colIter.hasNext() && y < 20) {
 					org.apache.poi.ss.usermodel.Cell xlCell = colIter.next();
 					if (xlCell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING) {
 						String name = xlCell.getStringCellValue();
-						
+						System.out.println("name: " + name);
 						// TODO: Move these string constants to the Cell class, and expand them
 						if (name == "stoplight") {
 							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 1, 300);
-						} else if (name == "wall") {
-							
-						} else if (name == "grass") {
-							
+						} else if (name.equals("wall")) {
+							newGrid.cells[x][y] = new Wall(x, y);
+						} else if (name.contains("open")) {
+							newGrid.cells[x][y] = new Cell(x, y, rand.nextDouble());
 						} else {
 							
 						}
