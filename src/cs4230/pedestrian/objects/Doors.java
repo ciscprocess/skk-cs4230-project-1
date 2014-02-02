@@ -3,7 +3,7 @@ package cs4230.pedestrian.objects;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-public class Door {
+public class Doors {
 	private static ArrayList<Pedestrian> exited;
 	private static PriorityQueue<Pedestrian> queuedPeople;
 	int[] x,y;
@@ -14,14 +14,14 @@ public class Door {
 	 * @param x = x positions of the door exit squares
 	 * @param y = y positions of the door exit squares
 	 */
-	public Door(int[] x, int[] y, Grid grid) {
+	public Doors(int[] x, int[] y, Grid grid) {
 		if(x.length!=y.length) {
 			System.out.println("You need the same number of x and y values...");
 			return;
 		}
 		this.x = x;
 		this.y = y;
-		Door.grid = grid;
+		Doors.grid = grid;
 	}
 	
 	/**

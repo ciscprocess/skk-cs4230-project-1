@@ -46,30 +46,30 @@ public class Grid {
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> iter = sheet.iterator();
 			int x = 0, y = 0;
-			while (iter.hasNext() && x < 20) {
-				y = 0;
+			while (iter.hasNext() && y < 20) {
+				x = 0;
 				Row currentRow = iter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
 				
-				while (colIter.hasNext() && y < 20) {
+				while (colIter.hasNext() && x < 20) {
 					org.apache.poi.ss.usermodel.Cell xlCell = colIter.next();
 					if (xlCell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING) {
 						String name = xlCell.getStringCellValue();
 						System.out.println("name: " + name);
 						// TODO: Move these string constants to the Cell class, and expand them
-						if (name == "stoplight") {
+						if (name.contains("stoplight")) {
 							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 1, 300);
-						} else if (name.equals("wall")) {
+						} else if (name.contains("wall")) {
 							newGrid.cells[x][y] = new Wall(x, y);
 						} else if (name.contains("open")) {
 							newGrid.cells[x][y] = new Cell(x, y, rand.nextDouble());
-						} else {
-							
+						} else if (name.contains("road")){
+							newGrid.cells[x][y] = new Road(x, y, rand.nextDouble());
 						}
 					}
-					y++;
+					x++;
 				}
-				x++;
+				y++;
 			}
 			
 		} catch (IOException e) {

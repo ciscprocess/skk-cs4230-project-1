@@ -21,9 +21,9 @@ public class Cell {
 	public static final int TILE_PX = DisplayPanel.TILE_PX;
 	
 	//diffusion constant for dynamic field 
-	protected final double alpha = .8;
+	protected final double alpha = .999;
 	//decay constant for dynamic field
-	protected final double delta = 0.2;
+	protected final double delta = 0.01;
 	//sensitivity constant for dynamic field 
 	protected final double Kd = .5;
 	//sensitivity constant for static field
