@@ -23,10 +23,11 @@ public class TimeEngine implements ActionListener {
 		DisplayPanel.setGrid(gameGrid);
 		Cell.setGrid(gameGrid);
 		dPanel = panel;
-		peds = new ArrayList<Pedestrian>(); 
+		peds = new ArrayList<Pedestrian>();
+		//double[][] field = {{0, 0, 0}, {0,0,0}, {0,0,0}};
 		peds.add(new Pedestrian(Pedestrian.generateUniform()));
 		Pedestrian ourFriend = peds.get(0);
-		ourFriend.setPosition(3, 3);
+		ourFriend.setPosition(3, 2);
 		ticker.start();
 	}
 	

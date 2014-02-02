@@ -95,11 +95,13 @@ public class Pedestrian implements Comparable{
 		
 		// normalize move probabilities 
 		double[] chances = new double[9];
+		Cell[] targets = new Cell[9];
 		double current = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				tempMove[i][j] /= sum;
 				chances[3 * i + j] = current;
+				targets[3 * i + j] = grid.getCell(x + i - 1, y + j - 1);
 				current += tempMove[i][j];
 			}
 		}
@@ -112,8 +114,8 @@ public class Pedestrian implements Comparable{
 		
 		count -= 1;
 		//sanity check
-		int tempX = x - (count / 3 - 1);
-		int tempY = y - (count % 3 - 1);
+		int tempX = x + (count / 3 - 1);
+		int tempY = y + (count % 3 - 1);
 		System.out.println("Sanity check pass: " + (grid.getCell(tempX, tempY) != null));
 
 		//set priority and request move from cell
@@ -122,7 +124,7 @@ public class Pedestrian implements Comparable{
 			return;
 		}
 		
-		if (grid.getCell(tempX, tempY) == null) {
+		if (grid.getCell(tempX, tempY) instanceof Wall) {
 			System.out.println("We have another problem.");
 		}
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
