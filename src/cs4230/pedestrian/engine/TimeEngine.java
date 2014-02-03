@@ -21,33 +21,33 @@ public class TimeEngine implements ActionListener {
 	private PriorityQueue<Pedestrian> peds;
 	private ArrayList<Pedestrian> exitPeds;
 	private AttractorSource contaminant;
+	private AttractorSource goal;
 	private Doors doorMan;
+	private long ticks = 0;
 	
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
 		ticker = new Timer(5, this);
-		gameGrid = Grid.loadFromXLSX("C:\\Users\\Nathan\\git\\skk-cs4230-project-1\\Map.xlsx");
+		gameGrid = Grid.loadFromXLSX("C:\\Users\\Nathan\\git\\skk-cs4230-project-1\\EvacMap.xlsx");
+		
 		Pedestrian.setGrid(gameGrid);
 		DisplayPanel.setGrid(gameGrid);
 		Cell.setGrid(gameGrid);
+		
 		dPanel = panel;
 		peds = new PriorityQueue<Pedestrian>();
 		exitPeds = new ArrayList<Pedestrian>();
-		//double[][] field = {{0, 0, 0}, {0.2,0.1,0.1}, {0.1, 0.3, 0.1}};
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		peds.add(new Pedestrian(Pedestrian.generateUniform()));
-		LinCogRandom rand = new LinCogRandom();
 		
-		//for (Pedestrian ped : peds) {
-			//ped.setPosition(rand.nextInt(20), rand.nextInt(20));
-		//}
+		for (int i = 0; i < 750; i++) {
+			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
+		}
+
+		contaminant = new AttractorSource(0, 11, -1);
+		goal = new AttractorSource(47, 12, 1);
 		
-		contaminant = new AttractorSource(0, 11, -0.5);
-		doorMan = new Doors(new int[] {3}, new int[] {6}, gameGrid);
+		gameGrid.addAttractorSource(goal);
+		
+		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
 		doorMan.setQueue(peds);
 		doorMan.setExited(exitPeds);
 		ticker.start();
@@ -63,13 +63,16 @@ public class TimeEngine implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		doorMan.egress();
+		
 		dPanel.update();
 		for (Pedestrian ped : exitPeds) {
 			if (ped.getX() >= 0 && ped.getY() >= 0) {
 				ped.requestMove();
 			}
 		}
+		
 		gameGrid.update();
+		ticks++;
 	}
 
 }

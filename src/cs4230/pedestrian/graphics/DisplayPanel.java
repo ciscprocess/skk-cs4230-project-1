@@ -17,7 +17,7 @@ import cs4230.pedestrian.objects.Particle;
 
 public class DisplayPanel extends JPanel {
 	private static final long serialVersionUID = -5184830046918043282L;
-	public static final int TILE_PX = 30;
+	public static final int TILE_PX = 20;
 	private static Grid grid;
 	private BufferedImage ground;
 	private BufferedImage particleLayer;
@@ -28,7 +28,7 @@ public class DisplayPanel extends JPanel {
 	}
 	
 	public DisplayPanel() {
-		Dimension size = new Dimension(600, 600);
+		Dimension size = new Dimension(1000, 600);
 		setPreferredSize(size);
 		this.ground = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.particleLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -58,7 +58,7 @@ public class DisplayPanel extends JPanel {
 		}
 		
 		for (int y = 0; y < Grid.HEIGHT; y++) {
-			bgfx.drawLine(0, y * TILE_PX, ground.getHeight(), y * TILE_PX);
+			bgfx.drawLine(0, y * TILE_PX, ground.getWidth(), y * TILE_PX);
 		}
 	}
 	

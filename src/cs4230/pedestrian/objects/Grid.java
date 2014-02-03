@@ -1,8 +1,10 @@
 package cs4230.pedestrian.objects;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -19,21 +21,16 @@ import cs4230.pedestrian.math.LinCogRandom;
  */
 public class Grid {
 	
-	public static final int WIDTH = 20;
-	public static final int HEIGHT = 20;
+	public static final int WIDTH = 48;
+	public static final int HEIGHT = 25;
 	
 	private Cell[][] cells;
-	private LinCogRandom rand;
+	private ArrayList<Point> doors;
+	private ArrayList<AttractorSource> pois = new ArrayList<AttractorSource>();
 	
 	public Grid() {
-		rand = new LinCogRandom();
+		doors = new ArrayList<Point>();
 		cells = new Cell[WIDTH][HEIGHT];
-		//Cell.setGrid(this);
-		//for (int x = 0; x < WIDTH; x++) {
-			//for (int y = 0; y < HEIGHT; y++) {
-				//cells[x][y] = new Cell(x, y, rand.nextDouble());
-			//}
-		//}
 	}
 	
 	public static Grid loadFromXLSX(String path) {
@@ -46,12 +43,12 @@ public class Grid {
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> iter = sheet.iterator();
 			int x = 0, y = 0;
-			while (iter.hasNext() && y < 20) {
+			while (iter.hasNext() && y < HEIGHT) {
 				x = 0;
 				Row currentRow = iter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
 				
-				while (colIter.hasNext() && x < 20) {
+				while (colIter.hasNext() && x < WIDTH) {
 					org.apache.poi.ss.usermodel.Cell xlCell = colIter.next();
 					if (xlCell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING) {
 						String name = xlCell.getStringCellValue();
@@ -65,6 +62,10 @@ public class Grid {
 							newGrid.cells[x][y] = new Cell(x, y, rand.nextDouble());
 						} else if (name.contains("road")){
 							newGrid.cells[x][y] = new Road(x, y, rand.nextDouble());
+						}
+						
+						if (name.contains("-d")) {
+							newGrid.doors.add(new Point(x, y));
 						}
 					}
 					x++;
@@ -103,6 +104,18 @@ public class Grid {
 	
 	public int getHeight() {
 		return cells[0].length;
+	}
+	
+	public ArrayList<Point> getDoorLocations() {
+		return doors;
+	}
+	
+	public void addAttractorSource(AttractorSource add) {
+		pois.add(add);
+	}
+	
+	public ArrayList<AttractorSource> getAttractorSources() {
+		return pois;
 	}
 	
 }

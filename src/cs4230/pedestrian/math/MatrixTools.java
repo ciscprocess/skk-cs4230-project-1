@@ -2,6 +2,16 @@ package cs4230.pedestrian.math;
 
 public class MatrixTools {
 	
+	public static double sum(double[][] a) {
+		double s = 0.0;
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < a[0].length; j++) {
+				s += a[i][j];
+			}
+		}
+		return s;
+	}
+	
 	public static double[][] generateZeros(int width, int height) {
 		double[][] n = new double[width][height];
 		for (int i = 0; i < width; i++) {

@@ -2,6 +2,7 @@ package cs4230.pedestrian.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import cs4230.pedestrian.math.*;
 
@@ -40,9 +41,16 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 				int tempY = y + j - 1;
 				Cell temp = grid.getCell(tempX, tempY); 
 				tempMove[i][j] *= (temp != null) ? temp.getMultiplier(): 0;
-				sum += tempMove[i][j];
 			}
-		}
+		}	
+		
+		ArrayList<AttractorSource> sources = grid.getAttractorSources();
+		for (AttractorSource source : sources) {
+			double[][] mask = this.generateMoveMask(source.x, source.y, source.getMultiplier());
+			tempMove = MatrixTools.multiplyInPlace(mask, tempMove);
+		}	
+		
+		sum = MatrixTools.sum(tempMove);
 		
 		// check for move possibility
 		if(sum <= 0) {
@@ -68,8 +76,8 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 			}
 		}
 		
-		double move = random.nextDouble();
-		int count = 0;
+		double move = random.nextDouble() + Double.MIN_VALUE;
+		int count = 1;
 		while(move > chances[count] && (count < chances.length - 1)) {
 			count++;
 		}
@@ -81,11 +89,16 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		int tempX = x + (count / 3 - 1);
 		int tempY = y + (count % 3 - 1);
 
-		//set priority and request move from cell
-		priority = tempMove[count / 3][count % 3];
+		
 		if (tempX >= Grid.WIDTH || tempY >= Grid.HEIGHT || tempX < 0 || tempY < 0) {
 			return;
 		}
+		
+		if (grid.getCell(tempX, tempY) instanceof Wall) {
+			System.out.println("Why is this shit still happening?");
+		}
+		//set priority and request move from cell
+		priority = tempMove[count / 3][count % 3];
 		
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
 	}

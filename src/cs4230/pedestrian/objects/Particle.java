@@ -27,16 +27,18 @@ public abstract class Particle {
 		grid = newGrid;
 	}
 	
-	public void generateMoveMask(int x, int y) {
+	public double[][] generateMoveMask(int x, int y, double mult) {
+		double centerDist = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
 		double[][] mg = new double[3][3];
 		for (int i = 0; i < mg.length; i++) {
 			for (int j = 0; j < mg[0].length; j++) {
 				int newX = this.x + (i - 1);
 				int newY = this.y + (j - 1);
-				int dist = Math.abs(this.x - newX) + Math.abs(this.y - newY);
-				mg[i][j] = 1.0 / dist;
+				double dist = Math.sqrt(Math.pow(x - newX, 2) + Math.pow(y - newY, 2)) - centerDist;
+				mg[i][j] = (10 / Math.pow(0.1 * dist + 1, 23)) * mult;
 			}
 		}
+		return mg;
 	}
 	
 	public static double[][] generateUniform() {
