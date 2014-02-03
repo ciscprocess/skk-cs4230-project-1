@@ -27,7 +27,7 @@ public class TimeEngine implements ActionListener {
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
 		ticker = new Timer(5, this);
-		gameGrid = Grid.loadFromXLSX("C:\\Users\\Nathan\\git\\skk-cs4230-project-1\\EvacMap.xlsx");
+		gameGrid = Grid.loadFromXLSX("EvacMap.xlsx");
 		
 		Pedestrian.setGrid(gameGrid);
 		DisplayPanel.setGrid(gameGrid);
