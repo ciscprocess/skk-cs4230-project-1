@@ -2,7 +2,6 @@ package cs4230.pedestrian.engine;
 import javax.swing.JFrame;
 
 import cs4230.pedestrian.graphics.MainPanel;
-import cs4230.pedestrian.math.LinCogRandom;
 
 public class PedestrianSimulation {
 

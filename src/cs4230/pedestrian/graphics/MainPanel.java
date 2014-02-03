@@ -4,7 +4,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import cs4230.pedestrian.engine.TimeEngine;
-import cs4230.pedestrian.objects.Grid;
 
 public class MainPanel extends JPanel {
 

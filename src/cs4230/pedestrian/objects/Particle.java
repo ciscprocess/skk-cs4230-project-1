@@ -4,7 +4,6 @@ import java.awt.Graphics;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
 import cs4230.pedestrian.math.LinCogRandom;
-import cs4230.pedestrian.math.Statistics;
 
 public abstract class Particle {
 	protected int x,y,moveIncrement,moveCount;

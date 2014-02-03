@@ -8,7 +8,6 @@ import java.util.PriorityQueue;
 import javax.swing.Timer;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
-import cs4230.pedestrian.math.LinCogRandom;
 import cs4230.pedestrian.objects.AttractorSource;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Doors;
@@ -46,6 +45,7 @@ public class TimeEngine implements ActionListener {
 		goal = new AttractorSource(47, 12, 1);
 		
 		gameGrid.addAttractorSource(goal);
+		gameGrid.addAttractorSource(contaminant);
 		
 		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
 		doorMan.setQueue(peds);
@@ -73,6 +73,10 @@ public class TimeEngine implements ActionListener {
 		
 		gameGrid.update();
 		ticks++;
+	}
+
+	public long getTicks() {
+		return ticks;
 	}
 
 }

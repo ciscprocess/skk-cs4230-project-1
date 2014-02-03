@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import cs4230.pedestrian.math.Statistics;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
 import cs4230.pedestrian.objects.Particle;
