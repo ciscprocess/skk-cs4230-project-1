@@ -37,7 +37,7 @@ public class TimeEngine implements ActionListener {
 		peds = new PriorityQueue<Pedestrian>();
 		exitPeds = new ArrayList<Pedestrian>();
 		
-		for (int i = 0; i < 750; i++) {
+		for (int i = 0; i < 500; i++) {
 			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
 		}
 
@@ -45,7 +45,7 @@ public class TimeEngine implements ActionListener {
 		goal = new AttractorSource(47, 12, 1);
 		
 		gameGrid.addAttractorSource(goal);
-		gameGrid.addAttractorSource(contaminant);
+		//gameGrid.addAttractorSource(contaminant);
 		
 		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
 		doorMan.setQueue(peds);

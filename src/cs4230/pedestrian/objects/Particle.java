@@ -34,7 +34,10 @@ public abstract class Particle {
 				int newX = this.x + (i - 1);
 				int newY = this.y + (j - 1);
 				double dist = Math.sqrt(Math.pow(x - newX, 2) + Math.pow(y - newY, 2)) - centerDist;
-				mg[i][j] = (10 / Math.pow(0.1 * dist + 1, 23)) * mult;
+				if (mult < 0) {
+					dist = 1 / dist;
+				}
+				mg[i][j] = (10 / Math.pow(0.1 * dist + 1, 23));
 			}
 		}
 		return mg;
