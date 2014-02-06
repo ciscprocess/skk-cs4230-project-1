@@ -7,9 +7,13 @@ import cs4230.pedestrian.math.Statistics;
 
 public class Road extends Cell {
 
-	public Road(int x, int y, double mult) {
-		super(x, y, mult);
-		// TODO Auto-generated constructor stub
+	public Road(int x, int y) {
+		super(x, y, 0);
+	}
+	
+	@Override
+	public void update() {
+		//road shouldn't require any additional computation time
 	}
 	
 	@Override

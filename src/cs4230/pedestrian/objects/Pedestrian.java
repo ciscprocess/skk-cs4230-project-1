@@ -48,7 +48,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		for (AttractorSource source : sources) {
 			double[][] mask = this.generateMoveMask(source.x, source.y, source.getMultiplier());
 			tempMove = MatrixTools.multiplyInPlace(mask, tempMove);
-		}	
+		}
 		
 		sum = MatrixTools.sum(tempMove);
 		

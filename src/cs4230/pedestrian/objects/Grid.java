@@ -60,7 +60,7 @@ public class Grid {
 						} else if (name.contains("open")) {
 							newGrid.cells[x][y] = new Cell(x, y, rand.nextDouble());
 						} else if (name.contains("road")){
-							newGrid.cells[x][y] = new Road(x, y, rand.nextDouble());
+							newGrid.cells[x][y] = new Road(x, y);
 						}
 						
 						if (name.contains("-d")) {

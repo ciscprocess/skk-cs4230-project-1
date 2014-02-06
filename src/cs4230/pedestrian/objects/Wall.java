@@ -8,6 +8,8 @@ import cs4230.pedestrian.math.Statistics;
 public class Wall extends Cell {
 	public Wall(int x, int y) {
 		super(x, y, 0);
+		this.mult = 0;
+		this.dynamic = 0;
 	}
 	
 	@Override
@@ -35,9 +37,11 @@ public class Wall extends Cell {
 	
 	@Override
 	public void update() {
-		super.update();
-		this.mult = 0;
-		this.dynamic = 0;
+		//Wall shouldn't take any additional computing resources
+		
+		//super.update();
+		//this.mult = 0;
+		//this.dynamic = 0;
 	}
 
 }
