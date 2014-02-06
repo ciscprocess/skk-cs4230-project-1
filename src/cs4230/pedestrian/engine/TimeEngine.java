@@ -42,7 +42,7 @@ public class TimeEngine implements ActionListener {
 		}
 
 		contaminant = new AttractorSource(0, 11, -1);
-		goal = new AttractorSource(47, 12, 1);
+		goal = new AttractorSource(47, 8, 1);
 		
 		gameGrid.addAttractorSource(goal);
 		//gameGrid.addAttractorSource(contaminant);

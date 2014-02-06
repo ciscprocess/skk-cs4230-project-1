@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.PriorityQueue;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -42,6 +44,12 @@ public class Grid {
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> iter = sheet.iterator();
 			int x = 0, y = 0;
+			
+			//data structures for creating static field around exits
+			PriorityQueue<Cell> currentSet = new PriorityQueue<Cell>();
+			HashSet<Cell> toExplore = new HashSet<Cell>();
+			
+			
 			while (iter.hasNext() && y < HEIGHT) {
 				x = 0;
 				Row currentRow = iter.next();
@@ -54,13 +62,20 @@ public class Grid {
 						System.out.println("name: " + name);
 						// TODO: Move these string constants to the Cell class, and expand them
 						if (name.contains("stoplight")) {
-							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 1, 300);
+							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 400, 300);
+							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("wall")) {
 							newGrid.cells[x][y] = new Wall(x, y);
 						} else if (name.contains("open")) {
-							newGrid.cells[x][y] = new Cell(x, y, rand.nextDouble());
+							//set minimum mult initially so that creating static field works
+							newGrid.cells[x][y] = new Cell(x, y, 0);
+							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("road")){
 							newGrid.cells[x][y] = new Road(x, y);
+						}
+						else if (name.contains("exit")){
+							newGrid.cells[x][y] = new Exit(x, y);
+							currentSet.add(newGrid.cells[x][y]);
 						}
 						
 						if (name.contains("-d")) {
@@ -72,11 +87,46 @@ public class Grid {
 				y++;
 			}
 			
+			//initialize grid with actual weights to guide particles to exit
+			createStaticField(newGrid, currentSet, toExplore);
+			
 		} catch (IOException e) {
 			System.out.println("Failed to load map-defining Excel file.");
 			e.printStackTrace();
 		}
+		
 		return newGrid;
+	}
+
+	/**
+	 * Uses exit arrangement to create a static weight on the field
+	 * such that pedestrians are drawn to exits
+	 * 
+	 * Note: all open slots must be part of a continuous set from the exits
+	 * (no islands or else will not converge)
+	 * 
+	 * @param grid The Grid to initialize
+	 * @param currentSet The current set of Cells to begin from (Exits)	
+	 * @param toExplore The cells that are valid neighbors to set weights to
+	 */
+	public static void createStaticField(Grid grid, PriorityQueue<Cell> currentSet, HashSet<Cell> toExplore) {
+		while(!toExplore.isEmpty()) {
+			Cell current = currentSet.remove();
+			//set neighbor weights and add to the current exploring set
+			for(int i = -1; i < 2; i++) {
+				for(int j = -1; j < 2; j++) {
+					Cell temp = grid.getCell(current.x + i, current.y + j);
+					if(temp!=null && toExplore.remove(temp)) {
+						//decrement cell by appropriate amount if cell is diagonal
+						if(Math.abs(i)==Math.abs(j))
+							temp.setMult(current.mult*0.3);
+						else
+							temp.setMult(current.mult*0.5);
+						currentSet.add(temp);
+					}
+				}
+			}
+		}
 	}
 	
 	public void update() {

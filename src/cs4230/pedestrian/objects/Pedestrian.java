@@ -42,7 +42,8 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 				Cell temp = grid.getCell(tempX, tempY); 
 				tempMove[i][j] *= (temp != null) ? temp.getMultiplier(): 0;
 			}
-		}	
+		}
+		
 		
 		ArrayList<AttractorSource> sources = grid.getAttractorSources();
 		for (AttractorSource source : sources) {
@@ -105,7 +106,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 
 	@Override
 	public int compareTo(Pedestrian o) {
-		return (int)Math.signum(this.priority - ((Pedestrian)o).priority);
+		return (int)Math.signum(o.priority - this.priority);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import cs4230.pedestrian.math.LinCogRandom;
 import cs4230.pedestrian.math.Statistics;
 
 
-public class Cell {
+public class Cell implements Comparable<Cell>{
 	protected double mult;
 	protected int dynamic;
 	protected int x,y;
@@ -26,7 +26,7 @@ public class Cell {
 	//decay constant for dynamic field
 	protected final double delta = 0.01;
 	//sensitivity constant for dynamic field 
-	protected final double Kd = .5;
+	protected final double Kd = .1;
 	//sensitivity constant for static field
 	protected final double Ks = 1;
 	
@@ -57,7 +57,11 @@ public class Cell {
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (mult==0) ? 0:Math.exp(Kd*dynamic)*Math.exp(Ks*mult);
+		return (mult==0) ? 0:(dynamic*Kd + 1)*Math.exp(Ks*mult);
+	}
+	
+	public void setMult(double mult) {
+		this.mult = mult;
 	}
 	
 	public void enqueuePedestrian(Pedestrian ped) {
@@ -152,5 +156,10 @@ public class Cell {
 			requestedMove.remove().setPosition(x, y);
 			requestedMove.clear();
 		}
+	}
+
+	@Override
+	public int compareTo(Cell o) {
+		return (int)Math.signum(o.mult-this.mult);
 	}
 }
