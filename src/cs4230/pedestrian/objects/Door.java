@@ -17,7 +17,6 @@ public class Door extends Particle {
 	@Override
 	public void requestMove() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

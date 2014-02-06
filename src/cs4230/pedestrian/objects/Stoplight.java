@@ -16,7 +16,7 @@ public class Stoplight extends Cell {
 		
 		this.lightIncrement = lightIncrement;
 		count = 0;
-		this.staticMult = 0;
+		this.mult = 0;
 		onMult = mult;
 		this.maxCounts = duration+lightIncrement;
 	}
@@ -37,10 +37,10 @@ public class Stoplight extends Cell {
 		count++;
 		if(count>maxCounts) {
 			count = 0;
-			staticMult = 0;
+			mult = 0;
 		}
 		else if(count>lightIncrement) {
-			staticMult = onMult;
+			mult = onMult;
 		}
 		
 		super.update();

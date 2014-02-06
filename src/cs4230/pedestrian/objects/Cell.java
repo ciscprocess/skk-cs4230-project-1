@@ -10,7 +10,6 @@ import cs4230.pedestrian.math.Statistics;
 
 public class Cell {
 	protected double mult;
-	protected double staticMult;
 	protected int dynamic;
 	protected int x,y;
 	protected PriorityQueue<Pedestrian> requestedMove;
@@ -58,7 +57,7 @@ public class Cell {
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (mult+dynamic);
+		return (mult==0) ? 0:Math.exp(Kd*dynamic)*Math.exp(Ks*mult);
 	}
 	
 	public void enqueuePedestrian(Pedestrian ped) {
