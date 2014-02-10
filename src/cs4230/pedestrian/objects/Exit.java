@@ -14,8 +14,13 @@ public class Exit extends Cell{
 	}
 	
 	public void update() {
-		// TODO implement the removal of occupying pedestrian
-		// TODO determine pedestrian exit interval and how to accommodate
+		//remove occupant, handle statistics method and set null
+		if(this.isOccupied) {
+			// TODO make grid store reference to timer 
+			// so that can tell it to delete pedestrian from list
+			//this.grid.removePedestrian(this.occupant);
+			this.setVoid();
+		}
 		super.update();
 	}
 	
