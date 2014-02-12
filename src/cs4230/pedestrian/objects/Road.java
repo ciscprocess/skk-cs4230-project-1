@@ -9,6 +9,8 @@ public class Road extends Cell {
 
 	public Road(int x, int y) {
 		super(x, y, 0);
+		
+		this.isOccupiable = false;
 	}
 	
 	@Override

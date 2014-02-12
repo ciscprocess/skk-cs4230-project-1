@@ -44,12 +44,13 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 			}
 		}
 		
-		
+		/*
 		ArrayList<AttractorSource> sources = grid.getAttractorSources();
 		for (AttractorSource source : sources) {
 			double[][] mask = this.generateMoveMask(source.x, source.y, source.getMultiplier());
 			tempMove = MatrixTools.multiplyInPlace(mask, tempMove);
 		}
+		*/
 		
 		sum = MatrixTools.sum(tempMove);
 		
@@ -63,7 +64,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		
 		
 		// 10 because of edge conditions
-		double[] chances = new double[10];
+		double[] chances = new double[9];
 		Cell[] targets = new Cell[9];
 		
 		// normalize move probabilities 
@@ -71,21 +72,27 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				tempMove[i][j] /= sum;
-				chances[3 * i + j] = current;
 				targets[3 * i + j] = grid.getCell(x + i - 1, y + j - 1);
 				current += tempMove[i][j];
+				chances[3 * i + j] = current;
 			}
 		}
 		
 		double move = random.nextDouble() + Double.MIN_VALUE;
-		int count = 1;
-		while(move > chances[count] && (count < chances.length - 1)) {
+		int count = 0;
+		while(move > chances[count] && (count < chances.length)) {
 			count++;
 		}
 		
-		count -= 1;
+		/*
+		System.out.println();
+		System.out.print("Chances: ");
+		MatrixTools.print(chances);
 		
-
+		System.out.println("Move: " + move);
+		System.out.println("Count: " + count);
+		*/
+		
 		//sanity check
 		int tempX = x + (count / 3 - 1);
 		int tempY = y + (count % 3 - 1);

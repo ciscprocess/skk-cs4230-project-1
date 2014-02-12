@@ -17,7 +17,7 @@ public class Cell implements Comparable<Cell>{
 	protected static Grid grid;
 	protected boolean isOccupied;
 	protected Particle occupant;
-
+	protected boolean isOccupiable;
 
 	public static final int TILE_PX = DisplayPanel.TILE_PX;
 	
@@ -41,6 +41,7 @@ public class Cell implements Comparable<Cell>{
 		this.y = y;
 		this.mult = mult;
 		isOccupied = false;
+		isOccupiable = true;
 		if(random==null)
 			random = new LinCogRandom();
 	}
@@ -57,7 +58,7 @@ public class Cell implements Comparable<Cell>{
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (mult==0) ? 0:(dynamic*Kd + 1)*Math.exp(Ks*mult);
+		return (isOccupiable) ? (dynamic*Kd + 1)*Math.exp(Ks*mult):0;
 	}
 	
 	public void setMult(double mult) {

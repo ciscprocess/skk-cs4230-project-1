@@ -8,8 +8,7 @@ import cs4230.pedestrian.math.Statistics;
 public class Wall extends Cell {
 	public Wall(int x, int y) {
 		super(x, y, 0);
-		this.mult = 0;
-		this.dynamic = 0;
+		this.isOccupiable = false;
 	}
 	
 	@Override

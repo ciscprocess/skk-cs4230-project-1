@@ -8,7 +8,6 @@ import cs4230.pedestrian.math.Statistics;
 public class Stoplight extends Cell {
 	
 	private int lightIncrement, count, maxCounts;
-	private double onMult;
 	
 	public Stoplight(int x, int y, double mult, int lightIncrement, int duration) {
 		
@@ -16,8 +15,7 @@ public class Stoplight extends Cell {
 		
 		this.lightIncrement = lightIncrement;
 		count = 0;
-		this.mult = 0;
-		onMult = mult;
+		this.mult = mult;
 		this.maxCounts = duration+lightIncrement;
 	}
 	
@@ -33,14 +31,13 @@ public class Stoplight extends Cell {
 		
 	@Override
 	public void update() {
-		
 		count++;
 		if(count>maxCounts) {
 			count = 0;
-			mult = 0;
+			this.isOccupiable = false;
 		}
 		else if(count>lightIncrement) {
-			mult = onMult;
+			this.isOccupiable = true;
 		}
 		
 		super.update();
