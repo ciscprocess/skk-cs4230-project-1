@@ -119,9 +119,9 @@ public class Grid {
 					if(temp!=null && toExplore.remove(temp)) {
 						//decrement cell by appropriate amount if cell is diagonal
 						if(Math.abs(i)==Math.abs(j))
-							temp.setMult(current.mult-3);
+							temp.setMult(current.mult-4.5);
 						else
-							temp.setMult(current.mult-3.5);
+							temp.setMult(current.mult-3);
 						currentSet.add(temp);
 					}
 				}
