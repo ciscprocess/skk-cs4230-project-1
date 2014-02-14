@@ -27,7 +27,7 @@ public class Exit extends Cell{
 	public void draw(Graphics gfx) {
 		Color col = new Color(255 , 0 , 0);
 		gfx.setColor(col);
-		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
 	}
 
 }

@@ -22,8 +22,8 @@ import cs4230.pedestrian.math.LinCogRandom;
  */
 public class Grid {
 	
-	public static final int WIDTH = 48;
-	public static final int HEIGHT = 25;
+	public static final int WIDTH = 450;
+	public static final int HEIGHT = 94;
 	
 	private Cell[][] cells;
 	private ArrayList<Point> doors;
@@ -72,10 +72,11 @@ public class Grid {
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("road")){
 							newGrid.cells[x][y] = new Road(x, y);
-						}
-						else if (name.contains("exit")){
+						} else if (name.contains("exit")){
 							newGrid.cells[x][y] = new Exit(x, y);
 							currentSet.add(newGrid.cells[x][y]);
+						} else if (name.contains("crosswalk")) {
+							newGrid.cells[x][y] = new Crosswalk(x, y, 0.1);
 						}
 						
 						if (name.contains("-d")) {
@@ -110,7 +111,7 @@ public class Grid {
 	 * @param toExplore The cells that are valid neighbors to set weights to
 	 */
 	public static void createStaticField(Grid grid, PriorityQueue<Cell> currentSet, HashSet<Cell> toExplore) {
-		while(!toExplore.isEmpty()) {
+		while(!toExplore.isEmpty() && !currentSet.isEmpty()) {
 			Cell current = currentSet.remove();
 			//set neighbor weights and add to the current exploring set
 			for(int i = -1; i < 2; i++) {

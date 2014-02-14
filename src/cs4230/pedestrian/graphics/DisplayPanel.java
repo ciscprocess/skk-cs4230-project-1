@@ -6,6 +6,12 @@ import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -21,6 +27,12 @@ public class DisplayPanel extends JPanel {
 	private BufferedImage ground;
 	private BufferedImage particleLayer;
 	private BufferedImage cellLayer;
+	private int originX = 0;
+	private int originY = 0;
+	private int mouseButtonMask;
+	private Point mousePress;
+	private double zoomFactor = 1.0;
+	
 	
 	public static void setGrid(Grid toSet) {
 		grid = toSet;
@@ -33,7 +45,11 @@ public class DisplayPanel extends JPanel {
 		this.particleLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.cellLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		initializeGround();
-		
+		this.addMouseListener(new MouseHandler());
+		this.addMouseMotionListener(new MouseHandler());
+		this.addKeyListener(new KeyHandler());
+		this.setFocusable(true);
+		this.requestFocus();
 	}
 	
 	public void update() {
@@ -112,15 +128,57 @@ public class DisplayPanel extends JPanel {
 		super.paintComponent(gfx);
 	
 		// Draw the underlying grid each frame
-		gfx.drawImage(ground, 0, 0, null);
+		//gfx.drawImage(ground, originX, originY, 
+				     //(int)(zoomFactor * ground.getWidth()), (int)(zoomFactor * ground.getHeight()), null);
 		
 		// Draw Cells
-		gfx.drawImage(cellLayer, 0, 0, null);
-		
+		gfx.drawImage(cellLayer, originX, originY, 
+			     (int)(zoomFactor * cellLayer.getWidth()), (int)(zoomFactor * cellLayer.getHeight()), null);
+
 		// Draw Pedestrians
-		gfx.drawImage(particleLayer, 0, 0, null);
+		gfx.drawImage(particleLayer, originX, originY, 
+			     (int)(zoomFactor * particleLayer.getWidth()), (int)(zoomFactor * particleLayer.getHeight()), null);
 		
 		// Border for JPanel -- nothing amazing
 		gfx.drawRect(0, 0, this.getWidth()-1, this.getHeight()-1);
+	}
+	
+	private class MouseHandler extends MouseAdapter {
+		
+		@Override
+		public void mousePressed(MouseEvent aEvt) {
+			mouseButtonMask = aEvt.getButton();	
+			mousePress = aEvt.getPoint();
+		}
+		
+		@Override
+		public void mouseDragged(MouseEvent aEvt) {
+			if (mouseButtonMask == MouseEvent.BUTTON3)
+			{
+				originX += aEvt.getPoint().x - mousePress.x;
+				originY += aEvt.getPoint().y - mousePress.y;
+				
+				DisplayPanel.this.repaint();
+				mousePress = aEvt.getPoint();
+			}
+			else
+			{
+				mouseMoved(aEvt);
+				mouseClicked(aEvt);	
+			}
+			
+		}
+	}
+	
+	private class KeyHandler extends KeyAdapter {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char c = e.getKeyChar();
+			if (c == '+') {
+				zoomFactor += 0.05;
+			} else if (c == '-') {
+				zoomFactor -= 0.05;
+			}
+	    }
 	}
 }

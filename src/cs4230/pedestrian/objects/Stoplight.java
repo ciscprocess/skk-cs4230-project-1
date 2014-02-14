@@ -24,7 +24,7 @@ public class Stoplight extends Cell {
 		int color = (int)(255*Statistics.sigmoid(getMultiplier()));
 		Color col = new Color(color, color, 0);
 		gfx.setColor(col);
-		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
 		gfx.setColor(Color.black);
 		gfx.drawString("SP", x * TILE_PX + 5, y * TILE_PX + 15);
 	}

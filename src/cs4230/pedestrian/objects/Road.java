@@ -23,7 +23,7 @@ public class Road extends Cell {
 		int color = (int)(255*Statistics.sigmoid(getMultiplier()));
 		Color col = new Color(color, color, color);
 		gfx.setColor(col);
-		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
 	}
 
 }
