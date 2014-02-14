@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 
 import cs4230.pedestrian.engine.TimeEngine;
 
+/**
+ * Parent container for the Graphics and Controls.
+ * @author Nathan
+ *
+ */
 public class MainPanel extends JPanel {
 
 	/**

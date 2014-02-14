@@ -4,6 +4,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+/**
+ * Doors acts as a manager of the Door classes, since it creates them and fills them with pedestrians.
+ * @author Nathan
+ *
+ */
 public class Doors {
 	private static ArrayList<Pedestrian> exited;
 	private static PriorityQueue<Pedestrian> queuedPeople;

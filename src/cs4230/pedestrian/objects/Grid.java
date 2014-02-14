@@ -20,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Grid {
 	
+	// TODO: Figure out how to determine these from the file.
 	public static final int WIDTH = 450;
 	public static final int HEIGHT = 94;
 	
@@ -32,6 +33,13 @@ public class Grid {
 		cells = new Cell[WIDTH][HEIGHT];
 	}
 	
+	/**
+	 * Factory method that generates a new Grid instance from XLSX file.
+	 * Each cell in the file represents a cell in the simulation, with text that defines
+	 * what type of cell it will be. 
+	 * @param path the path to the XLSX file.
+	 * @return a new Grid instance
+	 */
 	public static Grid loadFromXLSX(String path) {
 		Grid newGrid = new Grid();
 		

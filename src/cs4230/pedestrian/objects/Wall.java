@@ -5,6 +5,11 @@ import java.awt.Graphics;
 
 import cs4230.pedestrian.math.Statistics;
 
+/**
+ * A wall where pedestrians can never be.
+ * TODO: Should it be merged with Road?
+ * @author Nathan
+ */
 public class Wall extends Cell {
 	public Wall(int x, int y) {
 		super(x, y, 0);

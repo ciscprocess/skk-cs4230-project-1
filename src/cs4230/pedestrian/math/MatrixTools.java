@@ -1,5 +1,10 @@
 package cs4230.pedestrian.math;
 
+/**
+ * provides a variety of functions which operate on 2D arrays, mimicking the behavior
+ * of matrices.
+ * @author Nathan
+ */
 public class MatrixTools {
 	
 	public static double sum(double[][] a) {

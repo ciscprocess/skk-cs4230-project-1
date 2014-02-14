@@ -5,8 +5,15 @@ import java.awt.Graphics;
 
 import cs4230.pedestrian.math.Statistics;
 
+/**
+ * An instance of a Door. Pedestrians are created on adjacent squares
+ * @author Nathan
+ */
 public class Door extends Particle {
 	private static double[][] field = {{0,0,0}, {0,0,0}, {0,0,0}};
+	
+	// The exit direction
+	// TODO: This is not implemented currently. So implement it.
 	private int exitDir = -1;
 	public Door(int x, int y, int exitDirection) {
 		super(field);

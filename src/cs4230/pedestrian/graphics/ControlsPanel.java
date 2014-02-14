@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 
 import cs4230.pedestrian.engine.TimeEngine;
 
+/**
+ * Provides a home for the buttons which control the simulation
+ * @author Nathan
+ */
 public class ControlsPanel extends JPanel {
 	private static final long serialVersionUID = 3027249664206981502L;
 	

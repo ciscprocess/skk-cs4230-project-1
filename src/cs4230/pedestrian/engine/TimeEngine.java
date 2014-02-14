@@ -14,12 +14,16 @@ import cs4230.pedestrian.objects.Doors;
 import cs4230.pedestrian.objects.Grid;
 import cs4230.pedestrian.objects.Pedestrian;
 
+/**
+ * Initializes the simulation and updates each cell and particle on a given time-step interval. 
+ * @author Nathan
+ *
+ */
 public class TimeEngine implements ActionListener {
 	private Timer ticker;
 	private Grid gameGrid;
 	private PriorityQueue<Pedestrian> peds;
 	private ArrayList<Pedestrian> exitPeds;
-	private AttractorSource contaminant;
 	private AttractorSource goal;
 	private Doors doorMan;
 	private long ticks = 0;
@@ -41,15 +45,24 @@ public class TimeEngine implements ActionListener {
 			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
 		}
 
-		contaminant = new AttractorSource(0, 11, -1);
-		goal = new AttractorSource(47, 8, 1);
+		// These are commented-out, since we probably won't need them.
+		// We have a new system for attraction points
+		//contaminant = new AttractorSource(0, 11, -1);
+		//goal = new AttractorSource(47, 8, 1);
 		
-		gameGrid.addAttractorSource(goal);
+		//gameGrid.addAttractorSource(goal);
 		//gameGrid.addAttractorSource(contaminant);
 		
+		
 		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
+		
+		// non-functional style. "peds" and "exitPeds" are actually updated by the Doors class
+		// TODO: consider making the style more functional, since that's what the rest of the
+		// project uses
 		doorMan.setQueue(peds);
 		doorMan.setExited(exitPeds);
+		
+		// Start the simulation
 		ticker.start();
 	}
 	

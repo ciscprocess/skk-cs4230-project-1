@@ -1,7 +1,6 @@
 package cs4230.pedestrian.graphics;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,11 +18,17 @@ import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
 import cs4230.pedestrian.objects.Particle;
 
+/**
+ * This class houses all most of the graphics routines for the application. 
+ * However, do note that each Particle and Cell object is responsible for drawing itself.
+ * 
+ * @author Nathan
+ */
 public class DisplayPanel extends JPanel {
 	private static final long serialVersionUID = -5184830046918043282L;
 	public static final int TILE_PX = 20;
 	private static Grid grid;
-	private BufferedImage ground;
+	//private BufferedImage ground;
 	private BufferedImage particleLayer;
 	private BufferedImage cellLayer;
 	private int originX = 0;
@@ -32,25 +37,42 @@ public class DisplayPanel extends JPanel {
 	private Point mousePress;
 	private double zoomFactor = 1.0;
 	
-	
+	/**
+	 * This tells the DisplayPanel what it needs to draw.
+	 * TODO: I don't like the way these things are static. It's messy and kinda bad form.
+	 *       This isn't a very big deal, but if we have a moment, we should look at making them instance based.
+	 * @param toSet
+	 */
 	public static void setGrid(Grid toSet) {
 		grid = toSet;
 	}
 	
 	public DisplayPanel() {
+		// These are arbitrary dimensions. TODO: refactor these
 		Dimension size = new Dimension(1000, 600);
 		setPreferredSize(size);
-		this.ground = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		
+		// These are the graphics layers. "ground" is currently not used.
+		//this.ground = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.particleLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		this.cellLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		initializeGround();
-		this.addMouseListener(new MouseHandler());
-		this.addMouseMotionListener(new MouseHandler());
-		this.addKeyListener(new KeyHandler());
-		this.setFocusable(true);
-		this.requestFocus();
+		
+		//initializeGround();
+		
+		// Add the event handlers which are defined at the bottom of this file
+		addMouseListener(new MouseHandler());
+		addMouseMotionListener(new MouseHandler());
+		addKeyListener(new KeyHandler());
+		
+		// Necessary for the KeyHandler to actually receive events
+		setFocusable(true);
+		requestFocus();
 	}
 	
+	/**
+	 * redraws the graphics layers at each tick.
+	 * TODO: optimization opportunity. we may not need to redraw EVERYTHING
+	 */
 	public void update() {
 		clearParticleLayer();
 		clearCellLayer();
@@ -59,7 +81,7 @@ public class DisplayPanel extends JPanel {
 		drawCells();
 		repaint();
 	}
-	
+	/*
 	private void initializeGround() {
 		Graphics bgfx = this.ground.getGraphics();
 		bgfx.setColor(Color.WHITE);
@@ -75,12 +97,19 @@ public class DisplayPanel extends JPanel {
 			bgfx.drawLine(0, y * TILE_PX, ground.getWidth(), y * TILE_PX);
 		}
 	}
+	*/
 	
+	/**
+	 * makes the particle graphics layer transparent
+	 */
 	private void clearParticleLayer() {
 		Graphics lgfx = this.particleLayer.getGraphics();
 		bufferToClear((Graphics2D) lgfx);
 	}
 	
+	/**
+	 * loop through all Cells, get the pedestrian, and tell them to draw themselves
+	 */
 	private void drawPedestrians() {
 		if (grid == null) {
 			return;
@@ -98,17 +127,28 @@ public class DisplayPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * makes the cell graphics layer transparent
+	 */
 	private void clearCellLayer() {
 		Graphics lgfx = this.particleLayer.getGraphics();
 		bufferToClear((Graphics2D) lgfx);
 	}
 	
+	
+	/**
+	 * clears out a graphics interface and makes it the transparent color
+	 * @param aGfx - the graphics interface to clear
+	 */
 	private void bufferToClear(Graphics2D aGfx) {
 		Composite translucent = AlphaComposite.getInstance(AlphaComposite.CLEAR, 0.0f);
 		aGfx.setComposite(translucent);
 		aGfx.fillRect(0, 0, this.getWidth(), this.getHeight());
 	}
 	
+	/**
+	 * loops through each cell and tells it to draw itself
+	 */
 	private void drawCells() {
 		if (grid == null) {
 			return;
@@ -123,6 +163,9 @@ public class DisplayPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * overidden to draw the graphics layers to the screen
+	 */
 	public void paintComponent(Graphics gfx) {
 		super.paintComponent(gfx);
 	
@@ -142,6 +185,10 @@ public class DisplayPanel extends JPanel {
 		gfx.drawRect(0, 0, this.getWidth()-1, this.getHeight()-1);
 	}
 	
+	/**
+	 * handles scrolling of the the image
+	 * @author Nathan
+	 */
 	private class MouseHandler extends MouseAdapter {
 		
 		@Override
@@ -169,6 +216,10 @@ public class DisplayPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Handles zooming of the image
+	 * @author Nathan
+	 */
 	private class KeyHandler extends KeyAdapter {
 		@Override
 		public void keyTyped(KeyEvent e) {
