@@ -13,8 +13,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import cs4230.pedestrian.math.LinCogRandom;
-
 /**
  * This class contains all the cells in the Automata simulation. 
  * For now, it is an organizational placeholder.
@@ -36,7 +34,6 @@ public class Grid {
 	
 	public static Grid loadFromXLSX(String path) {
 		Grid newGrid = new Grid();
-		LinCogRandom rand = new LinCogRandom();
 		
 		try {
 			FileInputStream file = new FileInputStream(new File(path));
@@ -77,6 +74,7 @@ public class Grid {
 							currentSet.add(newGrid.cells[x][y]);
 						} else if (name.contains("crosswalk")) {
 							newGrid.cells[x][y] = new Crosswalk(x, y, 0.1);
+							toExplore.add(newGrid.cells[x][y]);
 						}
 						
 						if (name.contains("-d")) {
@@ -127,6 +125,11 @@ public class Grid {
 					}
 				}
 			}
+		}
+		
+		if (!toExplore.isEmpty()) {
+			System.out.println("WARNING: The entire Grid was NOT able to be explored to set the static field.");
+			System.out.println("         The area containing the exits is probably blocked in by roads.");
 		}
 	}
 	

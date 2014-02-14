@@ -2,7 +2,6 @@ package cs4230.pedestrian.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import cs4230.pedestrian.math.*;
 
@@ -102,9 +101,6 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 			return;
 		}
 		
-		if (grid.getCell(tempX, tempY) instanceof Wall) {
-			System.out.println("Why is this shit still happening?");
-		}
 		//set priority and request move from cell
 		priority = tempMove[count / 3][count % 3];
 		

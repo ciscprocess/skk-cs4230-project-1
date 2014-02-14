@@ -3,7 +3,6 @@ package cs4230.pedestrian.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import cs4230.pedestrian.math.Statistics;
 
 public class Exit extends Cell{
 
