@@ -119,7 +119,7 @@ public class DisplayPanel extends JPanel {
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Cell cell = grid.getCell(x, y);
-				if (cell.isOccupied()) {
+				if (cell!=null && cell.isOccupied()) {
 					Particle todraw = cell.getOccupant();
 					todraw.draw(plgfx);
 				}
@@ -158,7 +158,7 @@ public class DisplayPanel extends JPanel {
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Cell cell = grid.getCell(x, y);
-				cell.draw(cgfx);
+				if(cell!=null) cell.draw(cgfx);
 			}
 		}
 	}

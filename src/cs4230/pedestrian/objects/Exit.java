@@ -7,6 +7,7 @@ import java.awt.Graphics;
 public class Exit extends Cell{
 
 	private static final int maxMult = 100;
+	
 	public Exit(int x, int y) {
 		super(x, y, maxMult);
 		// TODO Auto-generated constructor stub
@@ -15,9 +16,7 @@ public class Exit extends Cell{
 	public void update() {
 		//remove occupant, handle statistics method and set null
 		if(this.isOccupied) {
-			// TODO make grid store reference to timer 
-			// so that can tell it to delete pedestrian from list
-			//this.grid.removePedestrian(this.occupant);
+			grid.getExited().remove(this.occupant);
 			this.setVoid();
 		}
 		super.update();

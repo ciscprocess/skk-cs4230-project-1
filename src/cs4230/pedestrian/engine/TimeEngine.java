@@ -31,7 +31,7 @@ public class TimeEngine implements ActionListener {
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
 		ticker = new Timer(5, this);
-		gameGrid = Grid.loadFromXLSX("BelowManagementBuilding.xlsx");
+		gameGrid = Grid.loadFromXLSX("EvacMap.xlsx");
 		
 		Pedestrian.setGrid(gameGrid);
 		DisplayPanel.setGrid(gameGrid);
@@ -55,6 +55,7 @@ public class TimeEngine implements ActionListener {
 		
 		
 		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
+		gameGrid.setExited(exitPeds);
 		
 		// non-functional style. "peds" and "exitPeds" are actually updated by the Doors class
 		// TODO: consider making the style more functional, since that's what the rest of the

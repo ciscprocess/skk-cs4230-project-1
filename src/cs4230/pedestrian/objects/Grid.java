@@ -27,6 +27,7 @@ public class Grid {
 	private Cell[][] cells;
 	private ArrayList<Point> doors;
 	private ArrayList<AttractorSource> pois = new ArrayList<AttractorSource>();
+	private ArrayList<Pedestrian> exited;
 	
 	public Grid() {
 		doors = new ArrayList<Point>();
@@ -144,7 +145,7 @@ public class Grid {
 	public void update() {
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
-				cells[x][y].update();
+				if(cells[x][y]!=null) cells[x][y].update();
 			}
 		}
 	}
@@ -177,6 +178,14 @@ public class Grid {
 	
 	public ArrayList<AttractorSource> getAttractorSources() {
 		return pois;
+	}
+
+	public void setExited(ArrayList<Pedestrian> exited) {
+		this.exited = exited;
+	}
+	
+	public ArrayList<Pedestrian> getExited() {
+		return this.exited;
 	}
 	
 }
