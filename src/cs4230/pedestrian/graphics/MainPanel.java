@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import cs4230.pedestrian.engine.TimeEngine;
+import cs4230.pedestrian.objects.Grid;
 
 /**
  * Parent container for the Graphics and Controls.
@@ -21,6 +22,10 @@ public class MainPanel extends JPanel {
 	private DisplayPanel dPanel;
 	
 	public MainPanel() {
+		
+		Grid gameGrid = Grid.loadFromXLSX("BelowManagementBuilding.xlsx");
+		DisplayPanel.setGrid(gameGrid);
+		
 		dPanel = new DisplayPanel();
 		TimeEngine engine = new TimeEngine(dPanel);
 		cPanel = new ControlsPanel(engine);

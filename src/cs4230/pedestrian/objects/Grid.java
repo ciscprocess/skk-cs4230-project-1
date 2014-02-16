@@ -20,19 +20,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class Grid {
 	
-	// TODO: Figure out how to determine these from the file.
-	public static final int WIDTH = 48;
-	public static final int HEIGHT = 25;
-	
 	private Cell[][] cells;
 	private ArrayList<Point> doors;
 	private ArrayList<AttractorSource> pois = new ArrayList<AttractorSource>();
 	private ArrayList<Pedestrian> exited;
 	public int time;
 	
-	public Grid() {
+	public Grid(int width, int height) {
 		doors = new ArrayList<Point>();
-		cells = new Cell[WIDTH][HEIGHT];
+		cells = new Cell[width][height];
 		time = 0;
 	}
 	
@@ -44,26 +40,47 @@ public class Grid {
 	 * @return a new Grid instance
 	 */
 	public static Grid loadFromXLSX(String path) {
-		Grid newGrid = new Grid();
+		Grid newGrid = null;
 		
 		try {
 			FileInputStream file = new FileInputStream(new File(path));
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
 			XSSFSheet sheet = workbook.getSheetAt(0);
 			Iterator<Row> iter = sheet.iterator();
+			int width = 0, height = 0;
+			while (iter.hasNext()) {
+				Row currentRow = iter.next();
+				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
+				height++;
+				int twidth = 0;
+				while (colIter.hasNext()) {
+					twidth++;
+					width = Math.max(width, twidth);
+					colIter.next();
+				}
+			}
+			
+			newGrid = new Grid(width, height);
+			
 			int x = 0, y = 0;
+			
+			
+			file = new FileInputStream(new File(path));
+			workbook = new XSSFWorkbook(file);
+			sheet = workbook.getSheetAt(0);
+			iter = sheet.iterator();
 			
 			//data structures for creating static field around exits
 			PriorityQueue<Cell> currentSet = new PriorityQueue<Cell>();
 			HashSet<Cell> toExplore = new HashSet<Cell>();
 			
 			
-			while (iter.hasNext() && y < HEIGHT) {
+			while (iter.hasNext() && y < height) {
 				x = 0;
 				Row currentRow = iter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
 				
-				while (colIter.hasNext() && x < WIDTH) {
+				while (colIter.hasNext() && x < width) {
 					org.apache.poi.ss.usermodel.Cell xlCell = colIter.next();
 					if (xlCell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING) {
 						String name = xlCell.getStringCellValue();
@@ -148,8 +165,8 @@ public class Grid {
 	}
 	
 	public void update() {
-		for (int x = 0; x < WIDTH; x++) {
-			for (int y = 0; y < HEIGHT; y++) {
+		for (int x = 0; x < getWidth(); x++) {
+			for (int y = 0; y < getHeight(); y++) {
 				if(cells[x][y]!=null) cells[x][y].update();
 			}
 		}
@@ -193,5 +210,4 @@ public class Grid {
 	public ArrayList<Pedestrian> getExited() {
 		return this.exited;
 	}
-	
 }

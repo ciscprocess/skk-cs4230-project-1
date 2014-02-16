@@ -47,15 +47,19 @@ public class DisplayPanel extends JPanel {
 		grid = toSet;
 	}
 	
+	public static Grid getGrid() {
+		return grid;
+	}
+	
 	public DisplayPanel() {
 		// These are arbitrary dimensions. TODO: refactor these
 		Dimension size = new Dimension(1000, 600);
 		setPreferredSize(size);
 		
 		// These are the graphics layers. "ground" is currently not used.
-		//this.ground = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		this.particleLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		this.cellLayer = new BufferedImage(TILE_PX * Grid.WIDTH, TILE_PX * Grid.HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		//this.ground = new BufferedImage(TILE_PX * grid.getWidth(), TILE_PX * grid.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		this.particleLayer = new BufferedImage(TILE_PX * grid.getWidth(), TILE_PX * grid.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		this.cellLayer = new BufferedImage(TILE_PX * grid.getWidth(), TILE_PX * grid.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		
 		//initializeGround();
 		
@@ -89,11 +93,11 @@ public class DisplayPanel extends JPanel {
 		
 		bgfx.setColor(Color.BLACK);
 		// Paint Grid Lines
-		for (int x = 0; x < Grid.WIDTH; x++) {
+		for (int x = 0; x < grid.getWidth(); x++) {
 			bgfx.drawLine(x * TILE_PX, 0, x * TILE_PX, ground.getHeight());
 		}
 		
-		for (int y = 0; y < Grid.HEIGHT; y++) {
+		for (int y = 0; y < grid.getHeight(); y++) {
 			bgfx.drawLine(0, y * TILE_PX, ground.getWidth(), y * TILE_PX);
 		}
 	}
@@ -116,8 +120,8 @@ public class DisplayPanel extends JPanel {
 		}
 		
 		Graphics plgfx = particleLayer.getGraphics();
-		for (int x = 0; x < Grid.WIDTH; x++) {
-			for (int y = 0; y < Grid.HEIGHT; y++) {
+		for (int x = 0; x < grid.getWidth(); x++) {
+			for (int y = 0; y < grid.getHeight(); y++) {
 				Cell cell = grid.getCell(x, y);
 				if (cell!=null && cell.isOccupied()) {
 					Particle todraw = cell.getOccupant();
@@ -155,8 +159,8 @@ public class DisplayPanel extends JPanel {
 		}
 		
 		Graphics cgfx = cellLayer.getGraphics();
-		for (int x = 0; x < Grid.WIDTH; x++) {
-			for (int y = 0; y < Grid.HEIGHT; y++) {
+		for (int x = 0; x < grid.getWidth(); x++) {
+			for (int y = 0; y < grid.getHeight(); y++) {
 				Cell cell = grid.getCell(x, y);
 				if(cell!=null) cell.draw(cgfx);
 			}

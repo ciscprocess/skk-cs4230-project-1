@@ -115,7 +115,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		int tempY = y + (count % 3 - 1);
 
 		
-		if (tempX >= Grid.WIDTH || tempY >= Grid.HEIGHT || tempX < 0 || tempY < 0) {
+		if (tempX >= grid.getWidth() || tempY >= grid.getHeight() || tempX < 0 || tempY < 0) {
 			return;
 		}
 		

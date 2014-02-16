@@ -21,7 +21,7 @@ public class Wall extends Cell {
 		int red = (int)(255*Statistics.sigmoid(getMultiplier()));
 		Color col = new Color(red, 0, 0);
 		gfx.setColor(col);
-		gfx.fillRect(x * TILE_PX + 1, y * TILE_PX + 1, TILE_PX - 1, TILE_PX - 1);
+		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
 	}
 	
 	@Override
