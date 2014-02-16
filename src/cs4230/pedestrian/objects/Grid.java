@@ -21,8 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Grid {
 	
 	// TODO: Figure out how to determine these from the file.
-	public static final int WIDTH = 450;
-	public static final int HEIGHT = 94;
+	public static final int WIDTH = 48;
+	public static final int HEIGHT = 25;
 	
 	private Cell[][] cells;
 	private ArrayList<Point> doors;
@@ -120,6 +120,9 @@ public class Grid {
 	 * @param toExplore The cells that are valid neighbors to set weights to
 	 */
 	public static void createStaticField(Grid grid, PriorityQueue<Cell> currentSet, HashSet<Cell> toExplore) {
+		
+		System.out.println("grid is: " + grid.getHeight() + " by " + grid.getWidth());
+		
 		while(!toExplore.isEmpty() && !currentSet.isEmpty()) {
 			Cell current = currentSet.remove();
 			//set neighbor weights and add to the current exploring set
@@ -129,7 +132,7 @@ public class Grid {
 					if(temp!=null && toExplore.remove(temp)) {
 						//decrement cell by appropriate amount if cell is diagonal
 						if(Math.abs(i)==Math.abs(j))
-							temp.setMult(current.mult-4.5);
+							temp.setMult(current.mult-5);
 						else
 							temp.setMult(current.mult-3);
 						currentSet.add(temp);

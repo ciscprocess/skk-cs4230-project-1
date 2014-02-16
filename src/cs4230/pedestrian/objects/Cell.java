@@ -26,7 +26,7 @@ public class Cell implements Comparable<Cell>{
 	//decay constant for dynamic field
 	protected final double delta = 0.01;
 	//sensitivity constant for dynamic field 
-	protected final double Kd = .1;
+	protected final double Kd = .4;
 	//sensitivity constant for static field
 	protected final double Ks = 1;
 	
@@ -51,6 +51,9 @@ public class Cell implements Comparable<Cell>{
 		Color col = new Color(0, green, 0);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
+		if(this.isOccupied) {
+			this.occupant.draw(gfx);
+		}
 	}
 	
 	/**
@@ -58,7 +61,7 @@ public class Cell implements Comparable<Cell>{
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (isOccupiable) ? (dynamic*Kd + 1)*Math.exp(Ks*mult):0;
+		return (isOccupiable) ? Math.exp(Kd*dynamic)*Math.exp(Ks*mult):0;
 	}
 	
 	public void setMult(double mult) {

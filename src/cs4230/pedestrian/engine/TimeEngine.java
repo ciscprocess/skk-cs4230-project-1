@@ -29,7 +29,7 @@ public class TimeEngine implements ActionListener {
 	private Doors doorMan;
 	private long ticks = 0;
 	
-	private static final int PEDESTRIANS = 1500;
+	private static final int PEDESTRIANS = 50;
 	
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
