@@ -7,12 +7,27 @@ import cs4230.pedestrian.math.*;
 
 public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	
-	private static Statistics stats;
 
+	public int walkingSteps, totalSteps;
+	public double distance;
+	
 	public Pedestrian(double[][] moveField) {
 		super(moveField);
-		stats = new Statistics(random);
-		moveIncrement = stats.normalInt(10, 1);
+		moveIncrement = new Statistics(random).normalInt(10, 1);
+		totalSteps = 0;
+		walkingSteps = 0;
+		distance = 0;
+	}
+	
+
+	public void setPosition(int x, int y) {
+		
+		//faster than square rooting this
+		//distance is already in meters
+		distance += (this.x!=x && this.y!=y) ? 0.56568542494:0.4;
+		walkingSteps++;
+		
+		super.setPosition(x, y);
 	}
 		
 	/**
@@ -20,6 +35,9 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	 */
 	@Override
 	public void requestMove() {
+		
+		totalSteps++;
+		
 		moveCount++;
 		
 		// only update on moves when necessary based on speed

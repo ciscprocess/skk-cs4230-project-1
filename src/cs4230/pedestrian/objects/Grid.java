@@ -28,10 +28,12 @@ public class Grid {
 	private ArrayList<Point> doors;
 	private ArrayList<AttractorSource> pois = new ArrayList<AttractorSource>();
 	private ArrayList<Pedestrian> exited;
+	public int time;
 	
 	public Grid() {
 		doors = new ArrayList<Point>();
 		cells = new Cell[WIDTH][HEIGHT];
+		time = 0;
 	}
 	
 	/**
@@ -148,6 +150,7 @@ public class Grid {
 				if(cells[x][y]!=null) cells[x][y].update();
 			}
 		}
+		time++;
 	}
 	
 	public void setCell(int x, int y, Cell cell) {

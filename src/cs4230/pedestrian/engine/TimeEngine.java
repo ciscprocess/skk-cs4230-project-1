@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import javax.swing.Timer;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
+import cs4230.pedestrian.math.Statistics;
 import cs4230.pedestrian.objects.AttractorSource;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Doors;
@@ -28,6 +29,8 @@ public class TimeEngine implements ActionListener {
 	private Doors doorMan;
 	private long ticks = 0;
 	
+	private static final int PEDESTRIANS = 1500;
+	
 	private DisplayPanel dPanel;
 	public TimeEngine(DisplayPanel panel) {
 		ticker = new Timer(5, this);
@@ -41,7 +44,9 @@ public class TimeEngine implements ActionListener {
 		peds = new PriorityQueue<Pedestrian>();
 		exitPeds = new ArrayList<Pedestrian>();
 		
-		for (int i = 0; i < 500; i++) {
+		Statistics.setPedestrianNumber(PEDESTRIANS);
+		
+		for (int i = 0; i < PEDESTRIANS; i++) {
 			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
 		}
 

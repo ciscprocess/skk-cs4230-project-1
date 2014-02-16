@@ -5,8 +5,51 @@ public class Statistics {
 	private static int spare;
 	private static boolean isSpareReady = false;
 	
+	private static int[] leaveDoorTimes;
+	private static int leftDoor;
+	private static int[] leaveAreaTimes;
+	private static int leftArea;
+	private static int[] totalSteps;
+	private static int[] walkingSteps;
+	private static double[] distance;
+	
+	
+	
 	public Statistics(LinCogRandom random){
 		this.random = random;
+	}
+	
+	
+	public static void setPedestrianNumber(int pedestrians) {
+		leaveDoorTimes = new int[pedestrians];
+		leaveAreaTimes = new int[pedestrians];
+		distance = new double[pedestrians];
+		totalSteps = new int[pedestrians];
+		walkingSteps = new int[pedestrians];
+		
+		leftArea = 0;
+		leftDoor = 0;
+	}
+	
+	public static void oneLeftArea(int time, int steps, int walked, double distance) {
+		if(leftArea<leaveAreaTimes.length) {
+			leaveAreaTimes[leftArea] = time;
+			Statistics.distance[leftArea] = distance;
+			Statistics.totalSteps[leftArea] = steps;
+			Statistics.walkingSteps[leftArea] = walked;
+			leftArea++;
+		}
+		else 
+			System.out.println("Too many pedestrians leaving area somehow");
+	}
+	
+	public static void oneLeftDoor(int time) {
+		if(leftDoor<leaveDoorTimes.length) {
+			leaveDoorTimes[leftDoor] = time;
+			leftDoor++;
+		}
+		else
+			System.out.println("Too many pedestrians leaving door somehow");
 	}
 	
 	/**

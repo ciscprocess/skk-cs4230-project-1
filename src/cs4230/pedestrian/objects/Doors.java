@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import cs4230.pedestrian.math.Statistics;
+
 /**
  * Doors acts as a manager of the Door classes, since it creates them and fills them with pedestrians.
  * @author Nathan
@@ -57,6 +59,7 @@ public class Doors {
 				Pedestrian temp = queuedPeople.remove();
 				temp.setPosition(cd.x + 1, cd.y);
 				exited.add(temp);
+				Statistics.oneLeftDoor(grid.time);
 			}
 		}
 	}

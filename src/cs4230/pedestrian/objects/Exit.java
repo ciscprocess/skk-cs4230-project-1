@@ -3,6 +3,8 @@ package cs4230.pedestrian.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import cs4230.pedestrian.math.Statistics;
+
 
 public class Exit extends Cell{
 
@@ -17,6 +19,8 @@ public class Exit extends Cell{
 		//remove occupant, handle statistics method and set null
 		if(this.isOccupied) {
 			grid.getExited().remove(this.occupant);
+			Pedestrian temp = (Pedestrian)this.occupant;
+			Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
 			this.setVoid();
 		}
 		super.update();
