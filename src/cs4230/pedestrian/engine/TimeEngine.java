@@ -32,8 +32,10 @@ public class TimeEngine implements ActionListener {
 	private static final int PEDESTRIANS = 50;
 	
 	private DisplayPanel dPanel;
+	
+	public static boolean DRAW_MAP = true;
 	public TimeEngine(DisplayPanel panel) {
-		ticker = new Timer(5, this);
+		ticker = new Timer(0, this);
 		
 		gameGrid = DisplayPanel.getGrid();
 		
@@ -84,7 +86,9 @@ public class TimeEngine implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		doorMan.egress();
 		
-		dPanel.update();
+		if (DRAW_MAP)
+			dPanel.update();
+		
 		for (Pedestrian ped : exitPeds) {
 			if (ped.getX() >= 0 && ped.getY() >= 0) {
 				ped.requestMove();

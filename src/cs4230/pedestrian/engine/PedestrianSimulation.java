@@ -11,6 +11,10 @@ public class PedestrianSimulation {
 		MainPanel panel = new MainPanel();
 		meFrame.add(panel);
 		meFrame.pack();
-		meFrame.setVisible(true);
+		
+		if (TimeEngine.DRAW_MAP) {
+			meFrame.setVisible(true);
+		}
+		
 	}
 }

@@ -51,6 +51,7 @@ public class Statistics {
 			//when last pedestrian leaves, write out statistics
 			if(leftArea==leaveAreaTimes.length) {
 				writeDataOut();
+				System.out.println("Done!");
 			}
 		}
 		else 
