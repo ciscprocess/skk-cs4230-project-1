@@ -1,5 +1,15 @@
 package cs4230.pedestrian.math;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class Statistics {
 	private LinCogRandom random;
 	private static int spare;
@@ -38,9 +48,63 @@ public class Statistics {
 			Statistics.totalSteps[leftArea] = steps;
 			Statistics.walkingSteps[leftArea] = walked;
 			leftArea++;
+			//when last pedestrian leaves, write out statistics
+			if(leftArea==leaveAreaTimes.length) {
+				writeDataOut();
+			}
 		}
 		else 
 			System.out.println("Too many pedestrians leaving area somehow");
+	}
+	
+	public static void writeDataOut() {
+		int i = 0;
+		File path;
+		do {
+			path = new File("output" + i + ".xlsx");
+			i++;
+		} while (path.exists());
+		
+		try {
+			FileOutputStream file = new FileOutputStream(path);
+			
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet("dataSheet");
+			
+			//write column headers
+			Row row = sheet.createRow((short)0);
+			row.createCell(0).setCellValue("Left Door Time (not same Pedestrian as rest of stats)");
+			//note the leave door time does not correspond to the same pedestrian as the rest of the statistics
+			row.createCell(1).setCellValue("Left Area Time");
+			row.createCell(2).setCellValue("Time Steps While Outside Building");
+			row.createCell(3).setCellValue("Times Placed on New Cell");
+			row.createCell(4).setCellValue("Distance walked from Door to Exit");
+			
+			for(i = 0; i < leaveDoorTimes.length; i++) {
+				row = sheet.createRow((short)(i+1));
+				//write various outputs in each row
+				row.createCell(0).setCellValue(leaveDoorTimes[i]);
+				//note the leave door time does not correspond to the same pedestrian as the rest of the statistics
+				row.createCell(1).setCellValue(leaveAreaTimes[i]);
+				row.createCell(2).setCellValue(totalSteps[i]);
+				row.createCell(3).setCellValue(walkingSteps[i]);
+				row.createCell(4).setCellValue(distance[i]);
+			}
+			
+			//write out data and close file
+			workbook.write(file);
+			file.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Failure writing data out");
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 	}
 	
 	public static void oneLeftDoor(int time) {
