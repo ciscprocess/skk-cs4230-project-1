@@ -29,11 +29,11 @@ public class TimeEngine implements ActionListener {
 	private Doors doorMan;
 	private long ticks = 0;
 	
-	private static final int PEDESTRIANS = 50;
+	private static final int PEDESTRIANS = 5;
 	
 	private DisplayPanel dPanel;
 	
-	public static boolean DRAW_MAP = true;
+	public static boolean DRAW_MAP = false;
 	public TimeEngine(DisplayPanel panel) {
 		ticker = new Timer(0, this);
 		

@@ -8,7 +8,7 @@ import cs4230.pedestrian.math.Statistics;
 
 public class Exit extends Cell{
 
-	private static final int maxMult = 100;
+	private static final int maxMult = 500;
 	
 	public Exit(int x, int y) {
 		super(x, y, maxMult);

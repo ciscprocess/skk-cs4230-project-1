@@ -26,7 +26,7 @@ public class Cell implements Comparable<Cell>{
 	//decay constant for dynamic field
 	protected final double delta = 0.01;
 	//sensitivity constant for dynamic field 
-	protected final double Kd = .4;
+	protected final double Kd = 0;
 	//sensitivity constant for static field
 	protected final double Ks = 1;
 	
