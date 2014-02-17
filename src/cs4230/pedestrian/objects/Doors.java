@@ -56,6 +56,8 @@ public class Doors {
 		for(int i = 0; i < objects.size(); i++) {
 			Door cd = objects.get(i);
 			if(!grid.getCell(cd.x + 1, cd.y).isOccupied()) {
+				if(queuedPeople.isEmpty())
+					break;
 				Pedestrian temp = queuedPeople.remove();
 				temp.setPosition(cd.x + 1, cd.y);
 				exited.add(temp);
