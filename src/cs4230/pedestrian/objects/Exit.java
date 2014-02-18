@@ -18,9 +18,10 @@ public class Exit extends Cell{
 	public void update() {
 		//remove occupant, handle statistics method and set null
 		if(this.isOccupied) {
-			grid.getExited().remove(this.occupant);
-			Pedestrian temp = (Pedestrian)this.occupant;
-			Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
+			if(grid.getExited().remove(this.occupant)) {
+				Pedestrian temp = (Pedestrian)this.occupant;
+				Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
+			}
 			this.setVoid();
 		}
 		super.update();
