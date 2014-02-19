@@ -24,7 +24,7 @@ public class Doors {
 	 */
 	public Doors(ArrayList<Point> doors, Grid grid) {
 		for (int i = 0; i < doors.size(); i++) {
-			objects.add(new Door(doors.get(i).x, doors.get(i).y, 1));
+			objects.add(new Door(doors.get(i).x, doors.get(i).y, Direction.RIGHT));
 		}
 		
 		Doors.grid = grid;

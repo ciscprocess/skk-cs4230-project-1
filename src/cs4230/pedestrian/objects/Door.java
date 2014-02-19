@@ -14,8 +14,8 @@ public class Door extends Particle {
 	
 	// The exit direction
 	// TODO: This is not implemented currently. So implement it.
-	private int exitDir = -1;
-	public Door(int x, int y, int exitDirection) {
+	private Direction exitDir = null;
+	public Door(int x, int y, Direction exitDirection) {
 		super(field);
 		this.setPosition(x, y);
 		this.setExitDir(exitDirection);
@@ -35,11 +35,11 @@ public class Door extends Particle {
 
 	}
 
-	public int getExitDir() {
+	public Direction getExitDir() {
 		return exitDir;
 	}
 
-	public void setExitDir(int exitDir) {
+	public void setExitDir(Direction exitDir) {
 		this.exitDir = exitDir;
 	}
 

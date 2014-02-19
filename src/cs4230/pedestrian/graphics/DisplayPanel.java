@@ -81,7 +81,7 @@ public class DisplayPanel extends JPanel {
 		clearParticleLayer();
 		clearCellLayer();
 		
-		//drawPedestrians();
+		drawPedestrians();
 		drawCells();
 		repaint();
 	}
