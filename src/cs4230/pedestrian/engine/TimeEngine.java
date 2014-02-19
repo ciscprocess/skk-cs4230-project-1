@@ -33,9 +33,15 @@ public class TimeEngine implements ActionListener {
 	
 	private DisplayPanel dPanel;
 	
-	public static boolean DRAW_MAP = true;
+	public static boolean DRAW_MAP = false;
+	public static int NUM_EXPERIMENTS = 10;
+	public int countExperiments;
+	
 	public TimeEngine(DisplayPanel panel) {
-		ticker = new Timer(10, this);
+		
+		countExperiments = 0;
+		
+		ticker = new Timer(0, this);
 		
 		gameGrid = DisplayPanel.getGrid();
 		
@@ -48,6 +54,7 @@ public class TimeEngine implements ActionListener {
 		exitPeds = new ArrayList<Pedestrian>();
 		
 		Statistics.setPedestrianNumber(PEDESTRIANS);
+		Statistics.setEngine(this);
 		
 		for (int i = 0; i < PEDESTRIANS; i++) {
 			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
@@ -74,6 +81,42 @@ public class TimeEngine implements ActionListener {
 		// Start the simulation
 		ticker.start();
 	}
+	
+	
+	public void resetEngine() {
+		
+		ticker.stop();
+		
+		if(countExperiments >= NUM_EXPERIMENTS) {
+			System.exit(1);
+		}
+		
+		countExperiments++;
+		
+		//Resets all statistic counters
+		Statistics.setPedestrianNumber(PEDESTRIANS);
+		
+		peds = new PriorityQueue<Pedestrian>();
+		exitPeds = new ArrayList<Pedestrian>();
+		
+		
+		for (int i = 0; i < PEDESTRIANS; i++) {
+			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
+		}
+
+		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
+		gameGrid.setExited(exitPeds);
+		
+		// non-functional style. "peds" and "exitPeds" are actually updated by the Doors class
+		// TODO: consider making the style more functional, since that's what the rest of the
+		// project uses
+		doorMan.setQueue(peds);
+		doorMan.setExited(exitPeds);
+		
+		// Start the new simulation
+		ticker.start();
+	}
+	
 	
 	public Timer getTicker() {
 		return ticker;

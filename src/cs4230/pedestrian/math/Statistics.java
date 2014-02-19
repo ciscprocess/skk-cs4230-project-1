@@ -27,12 +27,15 @@ public class Statistics {
 	private static int[] walkingSteps;
 	private static double[] distance;
 	
-	
+	private static TimeEngine engine;
 	
 	public Statistics(LinCogRandom random){
 		this.random = random;
 	}
 	
+	public static void setEngine(TimeEngine engine) {
+		Statistics.engine = engine;
+	}
 	
 	public static void setPedestrianNumber(int pedestrians) {
 		leaveDoorTimes = new int[pedestrians];
@@ -57,7 +60,7 @@ public class Statistics {
 			if(leftArea==leaveAreaTimes.length) {
 				writeDataOut();
 				System.out.println("Done!");
-				System.exit(1);
+				engine.resetEngine();
 			}
 		}
 		else 
