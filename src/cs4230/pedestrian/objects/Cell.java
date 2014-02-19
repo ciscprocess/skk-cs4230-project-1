@@ -26,7 +26,7 @@ public class Cell implements Comparable<Cell>{
 	//decay constant for dynamic field
 	protected final double delta = 0.01;
 	//sensitivity constant for dynamic field 
-	protected final double Kd = .4;
+	protected final double Kd = 0;
 	//sensitivity constant for static field
 	protected final double Ks = 1;
 	
@@ -61,7 +61,8 @@ public class Cell implements Comparable<Cell>{
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		return (isOccupiable) ? Math.exp(Kd*dynamic)*Math.exp(Ks*mult):0;
+		//return (isOccupiable) ? Math.exp(Kd*dynamic)*Math.exp(Ks*mult - ((isOccupied) ? 3:0) - 3*requestedMove.size()):0;
+		return (isOccupiable) ? Math.exp(Ks*mult - ((isOccupied) ? 5:0) - 3*requestedMove.size()):0;
 	}
 	
 	public void setMult(double mult) {
@@ -118,6 +119,7 @@ public class Cell implements Comparable<Cell>{
 	 */
 	public void update() {
 		
+		
 		int newDynamic = 0;
 		for(int i = 0; i < dynamic; i++) {
 			//decay
@@ -147,6 +149,7 @@ public class Cell implements Comparable<Cell>{
 		}
 		dynamic = newDynamic;
 		
+		
 		this.handleCollisions();
 		
 	}
@@ -157,6 +160,7 @@ public class Cell implements Comparable<Cell>{
 	 */
 	public void handleCollisions() {
 		if(!requestedMove.isEmpty()) {
+			//System.out.println("!");
 			requestedMove.remove().setPosition(x, y);
 			requestedMove.clear();
 		}

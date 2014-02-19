@@ -8,7 +8,7 @@ import cs4230.pedestrian.math.Statistics;
 
 public class Exit extends Cell{
 
-	private static final int maxMult = 100;
+	private static final int maxMult = 500;
 	
 	public Exit(int x, int y) {
 		super(x, y, maxMult);
@@ -18,9 +18,11 @@ public class Exit extends Cell{
 	public void update() {
 		//remove occupant, handle statistics method and set null
 		if(this.isOccupied) {
-			grid.getExited().remove(this.occupant);
-			Pedestrian temp = (Pedestrian)this.occupant;
-			Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
+			//System.out.println("!");
+			if(grid.getExited().remove(this.occupant)) {
+				Pedestrian temp = (Pedestrian)this.occupant;
+				Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
+			}
 			this.setVoid();
 		}
 		super.update();
@@ -31,5 +33,4 @@ public class Exit extends Cell{
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
 	}
-
 }
