@@ -6,9 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import cs4230.pedestrian.engine.TimeEngine;
 
 public class Statistics {
 	private LinCogRandom random;
@@ -41,6 +45,7 @@ public class Statistics {
 		leftDoor = 0;
 	}
 	
+	
 	public static void oneLeftArea(int time, int steps, int walked, double distance) {
 		if(leftArea<leaveAreaTimes.length) {
 			leaveAreaTimes[leftArea] = time;
@@ -52,6 +57,7 @@ public class Statistics {
 			if(leftArea==leaveAreaTimes.length) {
 				writeDataOut();
 				System.out.println("Done!");
+				System.exit(1);
 			}
 		}
 		else 

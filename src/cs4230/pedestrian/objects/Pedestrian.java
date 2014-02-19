@@ -14,7 +14,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	public Pedestrian(double[][] moveField) {
 		super(moveField);
 		moveIncrement = new Statistics(random).normalInt(10, 1);
-		moveIncrement = 1;
+		//moveIncrement = 1;
 		totalSteps = 0;
 		walkingSteps = 0;
 		distance = 0;
@@ -23,10 +23,12 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 
 	public void setPosition(int x, int y) {
 		
-		//faster than square rooting this
-		//distance is already in meters
-		distance += (this.x!=x && this.y!=y) ? 0.56568542494:0.4;
-		walkingSteps++;
+		if(this.x!=x && this.y!=y) {
+			//faster than square rooting this
+			//distance is already in meters
+			distance += (this.x!=x && this.y!=y) ? 0.56568542494:0.4;
+			walkingSteps++;
+		}
 		
 		super.setPosition(x, y);
 	}

@@ -29,13 +29,13 @@ public class TimeEngine implements ActionListener {
 	private Doors doorMan;
 	private long ticks = 0;
 	
-	private static final int PEDESTRIANS = 100;
+	private static final int PEDESTRIANS = 1500;
 	
 	private DisplayPanel dPanel;
 	
 	public static boolean DRAW_MAP = true;
 	public TimeEngine(DisplayPanel panel) {
-		ticker = new Timer(0, this);
+		ticker = new Timer(10, this);
 		
 		gameGrid = DisplayPanel.getGrid();
 		
@@ -88,10 +88,11 @@ public class TimeEngine implements ActionListener {
 		
 		if (DRAW_MAP)
 			dPanel.update();
-		
+
 		for (Pedestrian ped : exitPeds) {
 			if (ped.getX() >= 0 && ped.getY() >= 0) {
 				ped.requestMove();
+				//System.out.println("X: " + ped.x + ", Y: " + ped.y);
 			}
 		}
 		

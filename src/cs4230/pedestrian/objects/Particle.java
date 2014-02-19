@@ -6,7 +6,8 @@ import cs4230.pedestrian.graphics.DisplayPanel;
 import cs4230.pedestrian.math.LinCogRandom;
 
 public abstract class Particle {
-	protected int x,y,moveIncrement,moveCount;
+	public int x,y;
+	protected int moveIncrement,moveCount;
 	protected double[][] moveField;
 	protected static LinCogRandom random = new LinCogRandom();;
 	protected static Grid grid;
