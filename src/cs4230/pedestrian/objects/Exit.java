@@ -8,11 +8,14 @@ import cs4230.pedestrian.math.Statistics;
 
 public class Exit extends Cell{
 
-	private static final int maxMult = 500;
+	public static final int MAX_MULT = 500;
 	
 	public Exit(int x, int y) {
-		super(x, y, maxMult);
-		// TODO Auto-generated constructor stub
+		super(x, y, MAX_MULT);
+	}
+	
+	public Exit(int x, int y, double mult) {
+		super(x, y, mult);
 	}
 	
 	public void update() {

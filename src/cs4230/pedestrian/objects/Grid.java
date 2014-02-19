@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -75,6 +76,8 @@ public class Grid {
 			HashSet<Cell> toExplore = new HashSet<Cell>();
 			
 			
+			Scanner scan;
+			
 			while (iter.hasNext() && y < height) {
 				x = 0;
 				Row currentRow = iter.next();
@@ -87,7 +90,9 @@ public class Grid {
 						System.out.println("name: " + name);
 						// TODO: Move these string constants to the Cell class, and expand them
 						if (name.contains("stoplight")) {
-							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, 400, 300);
+							// Stoplight time in form of off-time, on-time
+							scan = new Scanner(name);
+							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, scan.nextInt(), scan.nextInt());
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("wall")) {
 							newGrid.cells[x][y] = new Wall(x, y);
@@ -98,13 +103,14 @@ public class Grid {
 						} else if (name.contains("road")){
 							newGrid.cells[x][y] = new Road(x, y);
 						} else if (name.contains("exit")){
-							newGrid.cells[x][y] = new Exit(x, y);
+							// reads exit weight from cell
+							scan = new Scanner(name);
+							newGrid.cells[x][y] = new Exit(x, y,scan.nextInt());
 							currentSet.add(newGrid.cells[x][y]);
 						} else if (name.contains("crosswalk")) {
 							newGrid.cells[x][y] = new Crosswalk(x, y, 0.1);
 							toExplore.add(newGrid.cells[x][y]);
 						}
-						
 						if (name.contains("-d")) {
 							newGrid.doors.add(new Point(x, y));
 						}
