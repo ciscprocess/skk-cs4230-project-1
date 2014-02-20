@@ -12,21 +12,9 @@ import cs4230.pedestrian.math.Statistics;
 public class Door extends Particle {
 	private static double[][] field = {{0,0,0}, {0,0,0}, {0,0,0}};
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-	// The exit direction
-	public Door(int x, int y) {
-		super(field);
-=======
 	public Door(int x, int y) {
 		super(field);
 		//this.setPosition(x, y);
->>>>>>> 0d0f64452c046afb82cb78fa4970fd51c8df2d8d
-=======
-	public Door(int x, int y) {
-		super(field);
-		//this.setPosition(x, y);
->>>>>>> 0d0f64452c046afb82cb78fa4970fd51c8df2d8d
 		this.x = x;
 		this.y = y;
 	}
@@ -44,11 +32,4 @@ public class Door extends Particle {
 		gfx.fillRect(x * TILE_PX + 6, y * TILE_PX + 6, TILE_PX - 12, TILE_PX - 12);
 
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 0d0f64452c046afb82cb78fa4970fd51c8df2d8d
-=======
->>>>>>> 0d0f64452c046afb82cb78fa4970fd51c8df2d8d
 }
