@@ -20,7 +20,7 @@ public class Road extends Cell {
 	
 	@Override
 	public void draw(Graphics gfx) {
-		int color = (int)(255*Statistics.sigmoid(getMultiplier()));
+		int color = 175;
 		Color col = new Color(color, color, color);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);

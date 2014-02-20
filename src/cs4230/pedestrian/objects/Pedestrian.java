@@ -53,57 +53,52 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		
 		
 		double[][] tempMove = new double[3][3];
-		double sum = 0;
+		double average = 0,tempMult;
+		int toCount = 0;
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				tempMove[i][j] = moveField[i][j];
 				int tempX = x + i - 1;
 				int tempY = y + j - 1;
 				Cell temp = grid.getCell(tempX, tempY); 
-				tempMove[i][j] *= (temp != null) ? temp.getMultiplier(): 0;
+				tempMult = (temp != null) ? temp.getMultiplier():Integer.MIN_VALUE;
+				if(tempMult!=Integer.MIN_VALUE) {
+					tempMove[i][j] *= tempMult;
+					average += tempMove[i][j];
+					toCount++;
+				}
+				else {
+					tempMove[i][j] = tempMult;
+				}
 			}
 		}
+				
 		
-		/*
-		ArrayList<AttractorSource> sources = grid.getAttractorSources();
-		for (AttractorSource source : sources) {
-			double[][] mask = this.generateMoveMask(source.x, source.y, source.getMultiplier());
-			tempMove = MatrixTools.multiplyInPlace(mask, tempMove);
-		}
-		*/
+		average /= toCount;
 		
-		sum = MatrixTools.sum(tempMove);
-		
-		// check for move possibility
-		if(sum <= 0) {
-			// if no probabilities of moving, don't request to move but reset chance to move next time
-			// mitigates propagation delay in crowds
-			moveCount = moveIncrement - 1;
-			return;
-		}
-		
-		
-		// 10 because of edge conditions
 		double[] chances = new double[9];
-		Cell[] targets = new Cell[9];
 		
-		// normalize move probabilities 
+		// exponentiate movement probabilities about average weight 
 		double current = 0;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				tempMove[i][j] /= sum;
-				targets[3 * i + j] = grid.getCell(x + i - 1, y + j - 1);
+				tempMove[i][j] = Math.exp(8*(tempMove[i][j]-average));
 				current += tempMove[i][j];
 				chances[3 * i + j] = current;
 			}
 		}
 		
+		
+		//normalize cumulative probabilities as we find our move direction
 		double move = random.nextDouble() + Double.MIN_VALUE;
 		int count = 0;
-		while(move > chances[count] && (count < chances.length)) {
+		while(count < chances.length-1) {
+			chances[count] /= chances[8];
+			if(move <= chances[count])
+				break;
 			count++;
 		}
-		
+				
 		/*
 		System.out.println();
 		System.out.print("Chances: ");
@@ -117,13 +112,12 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		int tempX = x + (count / 3 - 1);
 		int tempY = y + (count % 3 - 1);
 
-		
 		if (tempX >= grid.getWidth() || tempY >= grid.getHeight() || tempX < 0 || tempY < 0) {
 			return;
 		}
 		
 		//set priority and request move from cell
-		priority = tempMove[count / 3][count % 3];
+		priority = chances[count]-((count>0) ? chances[count-1]:0);
 		
 		grid.getCell(tempX, tempY).enqueuePedestrian(this);
 	}

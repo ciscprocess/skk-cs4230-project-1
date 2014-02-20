@@ -47,7 +47,7 @@ public class Cell implements Comparable<Cell>{
 	}
 	
 	public void draw(Graphics gfx) {
-		int green = (int)(255*Statistics.sigmoid(getMultiplier()));
+		int green = (int)(255*(getMultiplier()+2000.0)/2500.0);
 		Color col = new Color(0, green, 0);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
@@ -62,7 +62,8 @@ public class Cell implements Comparable<Cell>{
 	 */
 	public double getMultiplier() {
 		//return (isOccupiable) ? Math.exp(Kd*dynamic)*Math.exp(Ks*mult - ((isOccupied) ? 3:0) - 3*requestedMove.size()):0;
-		return (isOccupiable) ? Math.exp(Ks*mult - ((isOccupied) ? 5:0) - 3*requestedMove.size()):0;
+		//return (isOccupiable) ? Math.exp(Ks*mult - ((isOccupied) ? 5:0) - 3*requestedMove.size()):0;
+		return (isOccupiable) ? (Ks*mult - ((isOccupied) ? 1:0) - requestedMove.size()):Integer.MIN_VALUE;
 	}
 	
 	public void setMult(double mult) {

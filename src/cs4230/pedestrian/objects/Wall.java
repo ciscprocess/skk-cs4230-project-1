@@ -18,7 +18,7 @@ public class Wall extends Cell {
 	
 	@Override
 	public void draw(Graphics gfx) {
-		int red = (int)(255*Statistics.sigmoid(getMultiplier()));
+		int red = 190;
 		Color col = new Color(red, 0, 0);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
