@@ -91,7 +91,7 @@ public class Grid {
 						// TODO: Move these string constants to the Cell class, and expand them
 						if (name.contains("stoplight")) {
 							// Stoplight time in form of off-time, on-time
-							scan = new Scanner(name);
+							scan = new Scanner(name.replaceAll("[a-zA-Z]", ""));
 							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, scan.nextInt(), scan.nextInt());
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("wall")) {
@@ -104,7 +104,7 @@ public class Grid {
 							newGrid.cells[x][y] = new Road(x, y);
 						} else if (name.contains("exit")){
 							// reads exit weight from cell
-							scan = new Scanner(name);
+							scan = new Scanner(name.replaceAll("[a-zA-Z]", ""));
 							newGrid.cells[x][y] = new Exit(x, y,scan.nextInt());
 							currentSet.add(newGrid.cells[x][y]);
 						} else if (name.contains("crosswalk")) {

@@ -24,7 +24,7 @@ public class Doors {
 	 */
 	public Doors(ArrayList<Point> doors, Grid grid) {
 		for (int i = 0; i < doors.size(); i++) {
-			objects.add(new Door(doors.get(i).x, doors.get(i).y, Direction.RIGHT));
+			objects.add(new Door(doors.get(i).x, doors.get(i).y));
 		}
 		
 		Doors.grid = grid;
@@ -55,11 +55,11 @@ public class Doors {
 		}
 		for(int i = 0; i < objects.size(); i++) {
 			Door cd = objects.get(i);
-			if(!grid.getCell(cd.x + 1, cd.y).isOccupied()) {
+			if(!grid.getCell(cd.x, cd.y).isOccupied()) {
 				if(queuedPeople.isEmpty())
 					break;
 				Pedestrian temp = queuedPeople.remove();
-				temp.setPosition(cd.x + 1, cd.y);
+				temp.setPosition(cd.x, cd.y);
 				exited.add(temp);
 				Statistics.oneLeftDoor(grid.time);
 			}
