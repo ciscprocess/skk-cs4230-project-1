@@ -35,7 +35,7 @@ public class LinCogRandom {
 	 * @return the random integer
 	 */
 	public int nextInt(int upper) {
-		x = (a*x + c) % m;
+		x = (a*x + c) & (0xFFFFFFFFL);
 		return (int)((x >> 16) % upper);
 	}
 	
@@ -44,7 +44,7 @@ public class LinCogRandom {
 	 * @return the random number
 	 */
 	public double nextDouble() {
-		x = (a*x + c) % m;
+		x = (a*x + c) & (0xFFFFFFFFL);
 		return (double)((x >> 16)) / (m >> 16);
 	}
 

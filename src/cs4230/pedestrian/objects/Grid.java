@@ -105,7 +105,12 @@ public class Grid {
 						} else if (name.contains("exit")){
 							// reads exit weight from cell
 							scan = new Scanner(name.replaceAll("[a-zA-Z]", ""));
-							newGrid.cells[x][y] = new Exit(x, y,scan.nextInt());
+							if (scan.hasNextInt()) {
+								newGrid.cells[x][y] = new Exit(x, y,scan.nextInt());	
+							} else {
+								newGrid.cells[x][y] = new Exit(x, y, 5);
+							}
+							
 							currentSet.add(newGrid.cells[x][y]);
 						} else if (name.contains("crosswalk")) {
 							newGrid.cells[x][y] = new Crosswalk(x, y, 0.1);

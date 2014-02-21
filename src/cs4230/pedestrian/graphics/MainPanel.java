@@ -23,7 +23,7 @@ public class MainPanel extends JPanel {
 	
 	public MainPanel() {
 		
-		Grid gameGrid = Grid.loadFromXLSX("NorthWest.xlsx");
+		Grid gameGrid = Grid.loadFromXLSX("BelowManagementBuilding.xlsx");
 		DisplayPanel.setGrid(gameGrid);
 		
 		dPanel = new DisplayPanel();
