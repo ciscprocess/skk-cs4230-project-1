@@ -34,7 +34,7 @@ public class TimeEngine implements ActionListener {
 	private DisplayPanel dPanel;
 	
 	public static boolean DRAW_MAP = false;
-	public static int NUM_EXPERIMENTS = 10;
+	public static int NUM_EXPERIMENTS = 1;
 	public int countExperiments;
 	
 	public TimeEngine(DisplayPanel panel) {
@@ -87,11 +87,12 @@ public class TimeEngine implements ActionListener {
 		
 		ticker.stop();
 		
+		countExperiments++;
+		
 		if(countExperiments >= NUM_EXPERIMENTS) {
 			System.exit(1);
 		}
 		
-		countExperiments++;
 		
 		//Resets all statistic counters
 		Statistics.setPedestrianNumber(PEDESTRIANS);

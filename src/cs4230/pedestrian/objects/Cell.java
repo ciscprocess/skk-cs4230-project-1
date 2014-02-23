@@ -49,9 +49,11 @@ public class Cell implements Comparable<Cell>{
 	public void draw(Graphics gfx) {
 		//int green = (int)(255*(getMultiplier()+2500.0)/3000.0);
 		int green = 200;
-		Color col = new Color(0, green, 0);
+		//Color col = new Color(0, green, 0);
+		Color col = new Color(0,0,0);
 		gfx.setColor(col);
-		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
+		//gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
+		gfx.drawString("" + ((int)getMultiplier())%100, x * TILE_PX, y * TILE_PX);
 		if(this.isOccupied) {
 			this.occupant.draw(gfx);
 		}

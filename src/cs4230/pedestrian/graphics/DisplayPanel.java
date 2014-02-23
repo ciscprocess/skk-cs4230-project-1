@@ -82,10 +82,10 @@ public class DisplayPanel extends JPanel {
 	 */
 	public void update() {
 		clearParticleLayer();
-		//clearCellLayer();
+		clearCellLayer();
 		
 		drawPedestrians();
-		//drawCells();
+		drawCells();
 		repaint();
 	}
 	/*
