@@ -33,7 +33,7 @@ public class TimeEngine implements ActionListener {
 	
 	private DisplayPanel dPanel;
 	
-	public static boolean DRAW_MAP = true;
+	public static boolean DRAW_MAP = false;
 	public static int NUM_EXPERIMENTS = 10;
 	public int countExperiments;
 	

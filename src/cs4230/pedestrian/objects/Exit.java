@@ -24,7 +24,7 @@ public class Exit extends Cell{
 			//System.out.println("!");
 			if(grid.getExited().remove(this.occupant)) {
 				Pedestrian temp = (Pedestrian)this.occupant;
-				Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance);
+				Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance, this.x, this.y);
 			}
 			this.setVoid();
 		}

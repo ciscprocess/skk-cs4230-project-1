@@ -26,6 +26,8 @@ public class Statistics {
 	private static int[] totalSteps;
 	private static int[] walkingSteps;
 	private static double[] distance;
+	private static int[] exitX;
+	private static int[] exitY;
 	
 	private static TimeEngine engine;
 	
@@ -43,18 +45,22 @@ public class Statistics {
 		distance = new double[pedestrians];
 		totalSteps = new int[pedestrians];
 		walkingSteps = new int[pedestrians];
+		exitX = new int[pedestrians];
+		exitY = new int[pedestrians];
 		
 		leftArea = 0;
 		leftDoor = 0;
 	}
 	
 	
-	public static void oneLeftArea(int time, int steps, int walked, double distance) {
+	public static void oneLeftArea(int time, int steps, int walked, double distance, int x, int y) {
 		if(leftArea<leaveAreaTimes.length) {
 			leaveAreaTimes[leftArea] = time;
 			Statistics.distance[leftArea] = distance;
 			Statistics.totalSteps[leftArea] = steps;
 			Statistics.walkingSteps[leftArea] = walked;
+			Statistics.exitX[leftArea] = x;
+			Statistics.exitY[leftArea] = y;
 			leftArea++;
 			//when last pedestrian leaves, write out statistics
 			if(leftArea==leaveAreaTimes.length) {
@@ -89,6 +95,9 @@ public class Statistics {
 			row.createCell(2).setCellValue("Time Steps While Outside Building");
 			row.createCell(3).setCellValue("Times Placed on New Cell");
 			row.createCell(4).setCellValue("Distance walked from Door to Exit");
+			row.createCell(4).setCellValue("Exit Location X");
+			row.createCell(4).setCellValue("Exit Location Y");
+			
 			
 			for(i = 0; i < leaveDoorTimes.length; i++) {
 				row = sheet.createRow((short)(i+1));
@@ -99,6 +108,8 @@ public class Statistics {
 				row.createCell(2).setCellValue(totalSteps[i]);
 				row.createCell(3).setCellValue(walkingSteps[i]);
 				row.createCell(4).setCellValue(distance[i]);
+				row.createCell(5).setCellValue(exitX[i]);
+				row.createCell(6).setCellValue(exitY[i]);
 			}
 			
 			//write out data and close file
