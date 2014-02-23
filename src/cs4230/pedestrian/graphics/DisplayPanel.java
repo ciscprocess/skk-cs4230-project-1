@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
 import cs4230.pedestrian.objects.Particle;
+import cs4230.pedestrian.objects.Pedestrian;
 
 /**
  * This class houses all most of the graphics routines for the application. 
@@ -71,18 +72,20 @@ public class DisplayPanel extends JPanel {
 		// Necessary for the KeyHandler to actually receive events
 		setFocusable(true);
 		requestFocus();
+		
+		clearCellLayer();
+		drawCells();
 	}
 	
 	/**
 	 * redraws the graphics layers at each tick.
-	 * TODO: optimization opportunity. we may not need to redraw EVERYTHING
 	 */
 	public void update() {
 		clearParticleLayer();
-		clearCellLayer();
+		//clearCellLayer();
 		
 		drawPedestrians();
-		drawCells();
+		//drawCells();
 		repaint();
 	}
 	/*
@@ -120,14 +123,8 @@ public class DisplayPanel extends JPanel {
 		}
 		
 		Graphics plgfx = particleLayer.getGraphics();
-		for (int x = 0; x < grid.getWidth(); x++) {
-			for (int y = 0; y < grid.getHeight(); y++) {
-				Cell cell = grid.getCell(x, y);
-				if (cell!=null && cell.isOccupied()) {
-					Particle todraw = cell.getOccupant();
-					todraw.draw(plgfx);
-				}
-			}
+		for (Pedestrian ped : grid.getExited()) {
+			ped.draw(plgfx);
 		}
 	}
 	
