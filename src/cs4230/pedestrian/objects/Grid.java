@@ -92,7 +92,7 @@ public class Grid {
 						if (name.contains("stoplight")) {
 							// Stoplight time in form of off-time, on-time
 							scan = new Scanner(name.replaceAll("[a-zA-Z]", ""));
-							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, scan.nextInt(), scan.nextInt());
+							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, scan.nextInt(), scan.nextInt(), scan.nextInt());
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("wall")) {
 							newGrid.cells[x][y] = new Wall(x, y);

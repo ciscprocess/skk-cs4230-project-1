@@ -9,7 +9,7 @@ public class Stoplight extends Cell {
 	
 	private int lightIncrement, count, maxCounts;
 	
-	public Stoplight(int x, int y, double mult, int lightIncrement, int duration) {
+	public Stoplight(int x, int y, double mult, int duration, int lightIncrement) {
 		
 		super(x,y,mult);
 		
@@ -19,9 +19,16 @@ public class Stoplight extends Cell {
 		this.maxCounts = duration+lightIncrement;
 	}
 	
+	public Stoplight(int x, int y, double mult, int duration, int lightIncrement, int startCount) {
+		
+		this(x,y,mult,lightIncrement,duration);
+		
+		this.count = startCount;
+	}
+	
 	@Override
 	public void draw(Graphics gfx) {
-		int color = (int)(255*Statistics.sigmoid(getMultiplier()));
+		int color = (this.isOccupiable) ? 255:100;
 		Color col = new Color(color, color, 0);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
@@ -41,6 +48,9 @@ public class Stoplight extends Cell {
 		}
 		else if(count>lightIncrement) {
 			this.isOccupiable = true;
+		}
+		else {
+			this.isOccupiable = false;
 		}
 		
 		super.update();

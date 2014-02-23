@@ -9,7 +9,7 @@ import javax.swing.Timer;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
 import cs4230.pedestrian.math.Statistics;
-import cs4230.pedestrian.objects.AttractorSource;
+//import cs4230.pedestrian.objects.AttractorSource;
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Doors;
 import cs4230.pedestrian.objects.Grid;
@@ -25,11 +25,11 @@ public class TimeEngine implements ActionListener {
 	private Grid gameGrid;
 	private PriorityQueue<Pedestrian> peds;
 	private ArrayList<Pedestrian> exitPeds;
-	private AttractorSource goal;
+	//private AttractorSource goal;
 	private Doors doorMan;
 	private long ticks = 0;
 	
-	private static final int PEDESTRIANS = 100;
+	private static final int PEDESTRIANS = 1500;
 	
 	private DisplayPanel dPanel;
 	

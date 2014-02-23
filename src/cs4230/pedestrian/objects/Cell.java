@@ -47,7 +47,8 @@ public class Cell implements Comparable<Cell>{
 	}
 	
 	public void draw(Graphics gfx) {
-		int green = (int)(255*(getMultiplier()+2000.0)/2500.0);
+		//int green = (int)(255*(getMultiplier()+2500.0)/3000.0);
+		int green = 200;
 		Color col = new Color(0, green, 0);
 		gfx.setColor(col);
 		gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
@@ -120,7 +121,7 @@ public class Cell implements Comparable<Cell>{
 	 */
 	public void update() {
 		
-		
+		/*
 		int newDynamic = 0;
 		for(int i = 0; i < dynamic; i++) {
 			//decay
@@ -149,7 +150,7 @@ public class Cell implements Comparable<Cell>{
 			}
 		}
 		dynamic = newDynamic;
-		
+		*/
 		
 		this.handleCollisions();
 		

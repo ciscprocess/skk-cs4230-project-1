@@ -7,7 +7,7 @@ import cs4230.pedestrian.math.LinCogRandom;
 
 public abstract class Particle {
 	public int x,y;
-	protected int moveIncrement,moveCount;
+	protected int move_Increment,moveCount;
 	protected double[][] moveField;
 	protected static LinCogRandom random = new LinCogRandom();;
 	protected static Grid grid;

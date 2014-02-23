@@ -13,7 +13,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	
 	public Pedestrian(double[][] moveField) {
 		super(moveField);
-		moveIncrement = new Statistics(random).normalInt(10, 1);
+		move_Increment = new Statistics(random).normalInt(10, 1);
 		//moveIncrement = 1;
 		totalSteps = 0;
 		walkingSteps = 0;
@@ -44,7 +44,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		moveCount++;
 		
 		// only update on moves when necessary based on speed
-		if(moveIncrement <= moveCount) {
+		if(move_Increment <= moveCount) {
 			moveCount=0;
 		}
 		else {
@@ -119,7 +119,14 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		//set priority and request move from cell
 		priority = chances[count]-((count>0) ? chances[count-1]:0);
 		
-		grid.getCell(tempX, tempY).enqueuePedestrian(this);
+		Cell toMove = grid.getCell(tempX, tempY);
+		//reset move counter to move next tick if we desire to move to an occupied space
+		if(toMove.isOccupied) {
+			moveCount = move_Increment;
+		}
+		else {
+			toMove.enqueuePedestrian(this);
+		}
 	}
 
 	@Override
