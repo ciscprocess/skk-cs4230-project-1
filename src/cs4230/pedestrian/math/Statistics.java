@@ -95,8 +95,8 @@ public class Statistics {
 			row.createCell(2).setCellValue("Time Steps While Outside Building");
 			row.createCell(3).setCellValue("Times Placed on New Cell");
 			row.createCell(4).setCellValue("Distance walked from Door to Exit");
-			row.createCell(4).setCellValue("Exit Location X");
-			row.createCell(4).setCellValue("Exit Location Y");
+			row.createCell(5).setCellValue("Exit Location X");
+			row.createCell(6).setCellValue("Exit Location Y");
 			
 			
 			for(i = 0; i < leaveDoorTimes.length; i++) {
