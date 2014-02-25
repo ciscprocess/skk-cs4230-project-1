@@ -13,7 +13,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	
 	public Pedestrian(double[][] moveField) {
 		super(moveField);
-		move_Increment = new Statistics(random).normalInt(5, 0.3);
+		move_Increment = new Statistics(random).normalInt(9, 1.5);
 		totalSteps = 0;
 		walkingSteps = 0;
 		distance = 0;
