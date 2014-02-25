@@ -22,7 +22,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 
 	public void setPosition(int x, int y) {
 		
-		if(this.x!=x && this.y!=y) {
+		if(this.x!=x || this.y!=y) {
 			//faster than square rooting this
 			//distance is already in meters
 			distance += (this.x!=x && this.y!=y) ? 0.56568542494:0.4;
