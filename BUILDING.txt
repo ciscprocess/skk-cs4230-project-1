@@ -1,0 +1,11 @@
+TO BUILD AND RUN THIS PROJECT
+
+1.) Open Eclipse
+2.) Go to File -> Import
+3.) Under "General" in the resulting dialog, choose "Import Existing Projects into Workspace"
+4.) Open the file "PedestrianSimulation.java" under the package "cs4230.pedestrian.engine"
+5.) Hit the run/debug button
+
+NOTES:
+	* Which map is loaded is defined in MainPanel.java on line 26.
+	* For a major performance increase, you can disable graphics by setting DRAW_MAP to false in TimeEngine
