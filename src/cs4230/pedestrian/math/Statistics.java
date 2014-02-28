@@ -1,13 +1,9 @@
 package cs4230.pedestrian.math;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.swing.JFrame;
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -165,15 +161,15 @@ public class Statistics {
 	}
 	
 	/**
-	 * Performs a Chi-Square test of randomness for the random number generator
+	 * Performs a Chi-Square test of randomness for the linear random number generator
 	 */
-	public static void main(String[] args) {
+	private static void chiSquareTestLinCogRandom() {
 		LinCogRandom rand = new LinCogRandom();
 		int n = 100000;
 		int k = 1000;
 		int[] bins = new int[k];
 		int max = 1000;
-		
+
 		for(int i = 0; i < n; i++) {
 			bins[(int)(rand.nextInt(max)/(double)max*k)]++;
 		}
@@ -188,5 +184,49 @@ public class Statistics {
 		System.out.println("Expected is: " + n/k);
 		System.out.println("Chi-Square is: " + chi2);
 		System.out.println("Critical value is: " + 1106);
+	}
+	
+	/**
+	 * Performs a Chi-Square test of randomness for the discretized normal random number generator
+	 */
+	private static void chiSquareTestNormalRandom() {
+		Statistics stat = new Statistics(new LinCogRandom());
+		int n = 100;
+		int k = 7;
+		int[] bins = new int[k];
+		double[] probs = {0.0013, // x < -2
+						  0.0215, // x = -2 
+						  0.1359, // x = -1
+						  0.6826, // x = 0
+						  0.1359, // x = 1
+						  0.0215, // x = 2
+						  0.0013};// x > 2
+		
+		for (int i = 0; i < n; i++) {
+			int candidate = stat.normalInt(0, 1);
+			if (candidate < -3) {
+				candidate = -3;
+			} else if (candidate > 3) {
+				candidate = 3;
+			}
+			bins[candidate + 3] += 1;
+		}
+		
+		double chi2 = 0;
+		for (int i = 0; i < k; i++) {
+			double number = Math.pow(bins[i]-(double)(n*probs[i]),2) / (n*probs[i]);
+			System.out.println("Number: "  + number);
+			chi2 += number;
+		}
+		
+		
+		System.out.println("Chi-Square is: " + chi2);
+		System.out.println("Critical value is: " + 1106);
+	}
+	
+	// Run the Statistics Tests
+	public static void main(String[] args) {
+		chiSquareTestLinCogRandom();
+		chiSquareTestNormalRandom();
 	}
 }

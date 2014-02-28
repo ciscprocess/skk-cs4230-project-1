@@ -25,7 +25,6 @@ public class TimeEngine implements ActionListener {
 	private Grid gameGrid;
 	private PriorityQueue<Pedestrian> peds;
 	private ArrayList<Pedestrian> exitPeds;
-	//private AttractorSource goal;
 	private Doors doorMan;
 	private long ticks = 0;
 	
@@ -33,8 +32,8 @@ public class TimeEngine implements ActionListener {
 	
 	private DisplayPanel dPanel;
 	
-	public static boolean DRAW_MAP = true;
-	public static int NUM_EXPERIMENTS = 1;
+	public static boolean DRAW_MAP = false;
+	public static int NUM_EXPERIMENTS = 9;
 	public int countExperiments;
 	
 	public TimeEngine(DisplayPanel panel) {
@@ -59,15 +58,6 @@ public class TimeEngine implements ActionListener {
 		for (int i = 0; i < PEDESTRIANS; i++) {
 			peds.add(new Pedestrian(Pedestrian.generateUniform()));	
 		}
-
-		// These are commented-out, since we probably won't need them.
-		// We have a new system for attraction points
-		//contaminant = new AttractorSource(0, 11, -1);
-		//goal = new AttractorSource(47, 8, 1);
-		
-		//gameGrid.addAttractorSource(goal);
-		//gameGrid.addAttractorSource(contaminant);
-		
 		
 		doorMan = new Doors(gameGrid.getDoorLocations(), gameGrid);
 		gameGrid.setExited(exitPeds);
@@ -82,9 +72,13 @@ public class TimeEngine implements ActionListener {
 		ticker.start();
 	}
 	
-	
+	/**
+	 * Resets all necessary variables inbetween runs.
+	 * Does not reset stoplight timings.
+	 */
 	public void resetEngine() {
-		
+		ticks = 0;
+		gameGrid.time = 0;
 		ticker.stop();
 		
 		countExperiments++;
@@ -130,13 +124,13 @@ public class TimeEngine implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		doorMan.egress();
 		
-		if (DRAW_MAP)
+		if (DRAW_MAP) {
 			dPanel.update();
+		}
 
 		for (Pedestrian ped : exitPeds) {
 			if (ped.getX() >= 0 && ped.getY() >= 0) {
 				ped.requestMove();
-				//System.out.println("X: " + ped.x + ", Y: " + ped.y);
 			}
 		}
 		

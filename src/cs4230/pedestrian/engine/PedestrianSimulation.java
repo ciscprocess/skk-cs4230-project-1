@@ -3,6 +3,10 @@ import javax.swing.JFrame;
 
 import cs4230.pedestrian.graphics.MainPanel;
 
+/**
+ * Driver class for the application. Nothing interesting here.
+ * @author Nathan
+ */
 public class PedestrianSimulation {
 
 	public static void main(String[] args) {

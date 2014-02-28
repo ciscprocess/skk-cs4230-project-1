@@ -3,7 +3,6 @@ package cs4230.pedestrian.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import cs4230.pedestrian.math.Statistics;
 
 /**
  * A wall where pedestrians can never be.
@@ -31,7 +30,7 @@ public class Wall extends Cell {
 	 */
 	public void setOccupied(Particle occupant) {
 		super.setOccupied(occupant);
-		System.out.println("Warning: Setting a Wall as occupied.");
+		//System.out.println("Warning: Setting a Wall as occupied.");
 	}
 	
 	@Override

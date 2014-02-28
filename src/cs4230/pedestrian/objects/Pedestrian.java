@@ -5,12 +5,21 @@ import java.awt.Graphics;
 
 import cs4230.pedestrian.math.*;
 
+
+/**
+ * Pedestrian is a Particle that models a moving, real-life Pedestrian.
+ * @author Paul
+ */
 public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	
 
 	public int walkingSteps, totalSteps;
 	public double distance;
 	
+	/**
+	 * Constructs a Pedestrian biased with a move probability field
+	 * @param moveField - the move probability field
+	 */
 	public Pedestrian(double[][] moveField) {
 		super(moveField);
 		move_Increment = new Statistics(random).normalInt(9, 1.5);
@@ -20,11 +29,13 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 	}
 	
 
+	/**
+	 * Sets the position AND assuemes it was due to a move
+	 */
 	public void setPosition(int x, int y) {
-		
-		if(this.x!=x || this.y!=y) {
-			//faster than square rooting this
-			//distance is already in meters
+		if (this.x!=x || this.y!=y) {
+			// faster than square rooting this
+			// distance is already in meters
 			distance += (this.x!=x && this.y!=y) ? 0.56568542494:0.4;
 			walkingSteps++;
 		}
@@ -50,7 +61,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 			return;
 		}
 		
-		
+		// Calculate the move direction probabilities
 		double[][] tempMove = new double[3][3];
 		double average = 0,tempMult;
 		int toCount = 0;
@@ -88,7 +99,7 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 		}
 		
 		
-		//normalize cumulative probabilities as we find our move direction
+		// normalize cumulative probabilities as we find our move direction
 		double move = random.nextDouble() + Double.MIN_VALUE;
 		int count = 0;
 		while(count < chances.length-1) {
@@ -97,17 +108,8 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 				break;
 			count++;
 		}
-				
-		/*
-		System.out.println();
-		System.out.print("Chances: ");
-		MatrixTools.print(chances);
 		
-		System.out.println("Move: " + move);
-		System.out.println("Count: " + count);
-		*/
-		
-		//sanity check
+		// sanity check
 		int tempX = x + (count / 3 - 1);
 		int tempY = y + (count % 3 - 1);
 
@@ -115,11 +117,12 @@ public class Pedestrian extends Particle implements Comparable<Pedestrian> {
 			return;
 		}
 		
-		//set priority and request move from cell
+		// set priority and request move from cell
 		priority = chances[count]-((count>0) ? chances[count-1]:0);
 		
 		Cell toMove = grid.getCell(tempX, tempY);
-		//reset move counter to move next tick if we desire to move to an occupied space
+		
+		// reset move counter to move next tick if we desire to move to an occupied space
 		if(toMove.isOccupied) {
 			moveCount = move_Increment;
 		}

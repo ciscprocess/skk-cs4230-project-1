@@ -44,15 +44,37 @@ public class Grid {
 		Grid newGrid = null;
 		
 		try {
+			// STEP ONE: find width and height of the Excel file
+			
+			// Get a handle to the xlsx file we wish to load
 			FileInputStream file = new FileInputStream(new File(path));
+			
+			// Load the file into the Apache library
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			
+			// Get the first sheet of the XLSX file, where the map is located
 			XSSFSheet sheet = workbook.getSheetAt(0);
+			
+			// Get the iterator for the rows
 			Iterator<Row> iter = sheet.iterator();
+			
+			// Initializes current height and width estimates for the Grid
 			int width = 0, height = 0;
+			
+			// Read all rows until an undefined one
 			while (iter.hasNext()) {
+				// Get the current row, and advance to the next
 				Row currentRow = iter.next();
+				
+				// get the column iterator
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
+				
+				// now that we know there is at least one row, increase our height estimate
 				height++;
+				
+				
+				// find the width of this row, and compare it to the width of the currently found
+				// maximum. if it's greater, update the maximum, and thus the width estimate
 				int twidth = 0;
 				while (colIter.hasNext()) {
 					twidth++;
@@ -61,44 +83,58 @@ public class Grid {
 				}
 			}
 			
+			
+			// STEP TWO: Actually load the excel file
 			newGrid = new Grid(width, height);
 			
 			int x = 0, y = 0;
 			
-			
+			// Load in the file again, as above
 			file = new FileInputStream(new File(path));
 			workbook = new XSSFWorkbook(file);
 			sheet = workbook.getSheetAt(0);
 			iter = sheet.iterator();
 			
-			//data structures for creating static field around exits
+			// data structures for creating static field around exits
 			PriorityQueue<Cell> currentSet = new PriorityQueue<Cell>();
 			HashSet<Cell> toExplore = new HashSet<Cell>();
 			
 			
 			Scanner scan;
 			
+			// Loop through all rows
 			while (iter.hasNext() && y < height) {
 				x = 0;
+				// Get next row
 				Row currentRow = iter.next();
 				Iterator<org.apache.poi.ss.usermodel.Cell> colIter = currentRow.iterator();
 				
+				// Loop through all columns
 				while (colIter.hasNext() && x < width) {
+					// Get next column
 					org.apache.poi.ss.usermodel.Cell xlCell = colIter.next();
+					
+					// Ensure that this Excel Cell contains a string
 					if (xlCell.getCellType() == org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING) {
+						// Get Excel Cell contents
 						String name = xlCell.getStringCellValue();
-						System.out.println("name: " + name);
+						
 						// TODO: Move these string constants to the Cell class, and expand them
+						// Check what type of Simulation Cell is described by the current Excel Cell
 						if (name.contains("stoplight")) {
 							// Stoplight time in form of off-time, on-time
 							scan = new Scanner(name.replaceAll("[a-zA-Z]", ""));
 							newGrid.cells[x][y] = new Stoplight(x, y, 0.5, scan.nextInt(), scan.nextInt(), scan.nextInt());
+							
+							// walkable, so add to the BFS explore set
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("wall")) {
 							newGrid.cells[x][y] = new Wall(x, y);
 						} else if (name.contains("open")) {
 							//set minimum mult initially so that creating static field works
 							newGrid.cells[x][y] = new Cell(x, y, 0);
+							
+							// walkable, so add to the BFS explore set
 							toExplore.add(newGrid.cells[x][y]);
 						} else if (name.contains("road")){
 							newGrid.cells[x][y] = new Road(x, y);
@@ -111,9 +147,12 @@ public class Grid {
 								newGrid.cells[x][y] = new Exit(x, y, 5);
 							}
 							
+							// this is an exit, so add it to one of the reverse-bfs starting points
 							currentSet.add(newGrid.cells[x][y]);
 						} else if (name.contains("crosswalk")) {
 							newGrid.cells[x][y] = new Crosswalk(x, y, 0.1);
+							
+							// walkable, so add to the BFS explore set
 							toExplore.add(newGrid.cells[x][y]);
 						}
 						if (name.contains("-d")) {
@@ -125,7 +164,7 @@ public class Grid {
 				y++;
 			}
 			
-			//initialize grid with actual weights to guide particles to exit
+			// initialize grid with actual weights to guide particles to exit
 			createStaticField(newGrid, currentSet, toExplore);
 			
 		} catch (IOException e) {
@@ -176,48 +215,89 @@ public class Grid {
 	}
 	
 	public void update() {
+		// Update every cell in the grid
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
-				if(cells[x][y]!=null) cells[x][y].update();
+				if (cells[x][y] != null) cells[x][y].update();
 			}
 		}
 		time++;
 	}
 	
+	/**
+	 * Manually insert a Cell 
+	 * @param x - x location of Cell to insert
+	 * @param y - y location of Cell to insert
+	 * @param cell - the Cell to insert
+	 */
 	public void setCell(int x, int y, Cell cell) {
 		cells[x][y] = cell;
 	}
 	
+	/**
+	 * Gets the cell at a specific location. Returns null for an invalid location
+	 * @param x - x location of Cell to retrieve
+	 * @param y - y location of Cell to retrieve
+	 * @return the cell at the location (x, y)
+	 */
 	public Cell getCell(int x, int y) {
 		if(x < 0 || y < 0 || x >= cells.length || y>=cells[1].length)
 			return null;
 		return cells[x][y];
 	}
 	
+	/**
+	 * Gets width of cell grid
+	 * @return width
+	 */
 	public int getWidth() {
 		return cells.length;
 	}
 	
+	/**
+	 * Gets height of the Cell grid
+	 * @return
+	 */
 	public int getHeight() {
 		return cells[0].length;
 	}
 	
+	/**
+	 * Gets the ArrayList of all door locations
+	 * @return the ArrayList
+	 */
 	public ArrayList<Point> getDoorLocations() {
 		return doors;
 	}
 	
+	/**
+	 * Adds an attractor source
+	 * @param add
+	 */
 	public void addAttractorSource(AttractorSource add) {
 		pois.add(add);
 	}
 	
+	/**
+	 * Gets a list of all AttractorSources
+	 * @return
+	 */
 	public ArrayList<AttractorSource> getAttractorSources() {
 		return pois;
 	}
 
+	/**
+	 * Sets reference to the list of Pedestrians that have exited the map
+	 * @param exited
+	 */
 	public void setExited(ArrayList<Pedestrian> exited) {
 		this.exited = exited;
 	}
 	
+	/**
+	 * Gets the reference to the list of Pedestrians that have exited the map
+	 * @return
+	 */
 	public ArrayList<Pedestrian> getExited() {
 		return this.exited;
 	}

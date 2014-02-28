@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 
 import cs4230.pedestrian.objects.Cell;
 import cs4230.pedestrian.objects.Grid;
-import cs4230.pedestrian.objects.Particle;
 import cs4230.pedestrian.objects.Pedestrian;
 
 /**
@@ -82,10 +81,10 @@ public class DisplayPanel extends JPanel {
 	 */
 	public void update() {
 		clearParticleLayer();
-		clearCellLayer();
+		//clearCellLayer();
 		
 		drawPedestrians();
-		drawCells();
+		//drawCells();
 		repaint();
 	}
 	/*

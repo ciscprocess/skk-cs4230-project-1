@@ -5,10 +5,15 @@ import java.util.PriorityQueue;
 
 import cs4230.pedestrian.graphics.DisplayPanel;
 import cs4230.pedestrian.math.LinCogRandom;
-import cs4230.pedestrian.math.Statistics;
 
-
-public class Cell implements Comparable<Cell>{
+/**
+ * Cell is the core of the simulation. It functions as one of the discrete locations
+ * where Pedestrians or other Particles can be found, and it contains desirability
+ * information about itself.
+ * 
+ * @author Paul
+ */
+public class Cell implements Comparable<Cell> {
 	protected double mult;
 	protected int dynamic;
 	protected int x,y;
@@ -35,6 +40,13 @@ public class Cell implements Comparable<Cell>{
 		grid = newGrid;
 	}
 	
+	/**
+	 * Constructor for cell. Takes in its location in the Grid and a desirability value.
+	 * The desirability value influences how likely Pedestrians are to move to its location.
+	 * @param x - the X (horizontal) coordinate of the Cell's location in the grid
+	 * @param y - the Y (vertical) coordinate of the Cell's location in the grid
+	 * @param mult - the cell's desirability value
+	 */
 	public Cell(int x, int y, double mult) {
 		requestedMove = new PriorityQueue<Pedestrian>();
 		this.x = x;
@@ -42,41 +54,52 @@ public class Cell implements Comparable<Cell>{
 		this.mult = mult;
 		isOccupied = false;
 		isOccupiable = true;
-		if(random==null)
+		
+		if (random == null) {
 			random = new LinCogRandom();
-	}
-	
-	public void draw(Graphics gfx) {
-		//int green = (int)(255*(getMultiplier()+2500.0)/3000.0);
-		int green = 200;
-		//Color col = new Color(0, green, 0);
-		Color col = new Color(0,0,0);
-		gfx.setColor(col);
-		//gfx.fillRect(x * TILE_PX, y * TILE_PX, TILE_PX, TILE_PX);
-		gfx.drawString("" + ((int)getMultiplier())%100, x * TILE_PX, y * TILE_PX);
-		if(this.isOccupied) {
-			this.occupant.draw(gfx);
 		}
 	}
 	
 	/**
-	 * Computes the relative weight of this cell based on attractiveness
+	 * The default draw method for a cell in the simulation. Can be overridden by children
+	 * of Cell for a more graphically descriptive representation. It takes in a AWT Graphics
+	 * object as its drawing surface, and it redraws itself every time this function is called.
+	 * @param gfx - the graphics surface to draw to
+	 */
+	public void draw(Graphics gfx) {
+		Color col = new Color(0,0,0);
+		gfx.setColor(col);
+		gfx.drawString("" + ((int)getMultiplier()) % 100, x * TILE_PX, y * TILE_PX);
+	}
+	
+	/**
+	 * Computes the relative weight of this cell based on desirability value.
 	 * @return the overall multiplier of probability
 	 */
 	public double getMultiplier() {
-		//return (isOccupiable) ? Math.exp(Kd*dynamic)*Math.exp(Ks*mult - ((isOccupied) ? 3:0) - 3*requestedMove.size()):0;
-		//return (isOccupiable) ? Math.exp(Ks*mult - ((isOccupied) ? 5:0) - 3*requestedMove.size()):0;
 		return (isOccupiable) ? (Ks*mult - ((isOccupied) ? 1:0) - requestedMove.size()):Integer.MIN_VALUE;
 	}
 	
+	/**
+	 * Sets the raw desirability value. This is opposed to getMultiplier() which returns
+	 * a weight based on this raw desirability.
+	 * @param mult
+	 */
 	public void setMult(double mult) {
 		this.mult = mult;
 	}
 	
+	/**
+	 * Notify the Cell that a(nother) pedestrian wishes to move here.
+	 * At it's turn, the pedestrian with the highest speed gets to move here.
+	 * @param ped - the pedestrian to enqueue
+	 */
 	public void enqueuePedestrian(Pedestrian ped) {
-		//do not accept move requests if I am already occupied
-		if(isOccupied)
+		// do not accept move requests if I am already occupied
+		if (isOccupied) {
 			return;
+		}
+		
 		requestedMove.add(ped);
 	}
 	
@@ -122,6 +145,10 @@ public class Cell implements Comparable<Cell>{
 	 * Handles pedestrian collision and updates the dynamic field values
 	 */
 	public void update() {
+		// NOTE TO TA:
+		// This code was scrapped since we eliminated the use of dynamic field values,
+		// as they were a major performance bottleneck and they were found to actually decrease
+		// the quality of the simulation during the face validation phase
 		
 		/*
 		int newDynamic = 0;
@@ -164,7 +191,6 @@ public class Cell implements Comparable<Cell>{
 	 */
 	public void handleCollisions() {
 		if(!requestedMove.isEmpty()) {
-			//System.out.println("!");
 			requestedMove.remove().setPosition(x, y);
 			requestedMove.clear();
 		}

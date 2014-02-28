@@ -3,8 +3,10 @@ package cs4230.pedestrian.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import cs4230.pedestrian.math.Statistics;
-
+/**
+ * A non-traversable Cell
+ * @author Nathan
+ */
 public class Road extends Cell {
 
 	public Road(int x, int y) {
@@ -18,6 +20,9 @@ public class Road extends Cell {
 		//road shouldn't require any additional computation time
 	}
 	
+	/**
+	 * Draws a darker-colored cell for visual verification
+	 */
 	@Override
 	public void draw(Graphics gfx) {
 		int color = 175;

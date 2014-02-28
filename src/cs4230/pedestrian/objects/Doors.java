@@ -15,7 +15,7 @@ import cs4230.pedestrian.math.Statistics;
 public class Doors {
 	private static ArrayList<Pedestrian> exited;
 	private static PriorityQueue<Pedestrian> queuedPeople;
-	private static ArrayList<Door> objects = new ArrayList<Door>();
+	private static ArrayList<Door> objects;
 	private static Grid grid;
 	private static int[] counters;
 	private static final int MAX_COUNTER = 19;
@@ -28,6 +28,7 @@ public class Doors {
 	public Doors(ArrayList<Point> doors, Grid grid) {
 		counters = new int[doors.size()];
 		LinCogRandom temp = new LinCogRandom();
+		objects = new ArrayList<Door>();
 		for (int i = 0; i < doors.size(); i++) {
 			counters[i] = temp.nextInt(MAX_COUNTER);
 			objects.add(new Door(doors.get(i).x, doors.get(i).y));

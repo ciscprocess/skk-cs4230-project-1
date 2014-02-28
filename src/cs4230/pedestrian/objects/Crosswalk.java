@@ -4,11 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 
+/**
+ * 
+ * @author Nathan
+ */
 public class Crosswalk extends Cell {
 	public Crosswalk(int x, int y, double mult) {
 		super(x,y,mult);
 	}
 	
+	/**
+	 * draws the Crosswalk. Little changes from the super method.
+	 */
 	public void draw(Graphics gfx) {
 		
 		Color col = new Color(0,0,0);

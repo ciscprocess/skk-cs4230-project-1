@@ -6,7 +6,15 @@ import java.awt.Graphics;
 import cs4230.pedestrian.math.Statistics;
 
 
-public class Exit extends Cell{
+/**
+ * Exit is a Cell that serves two functions: 
+ * a.) It serves as one of the locations where Pedestrians can exit the map
+ * b.) It serves as a location which Cells have their path distances calculated to.
+ *     These path distances are then used to weight the Cells, using the formula
+ *     Described in the included report.
+ * @author Paul
+ */
+public class Exit extends Cell {
 
 	public static final int MAX_MULT = 500;
 	
@@ -18,11 +26,13 @@ public class Exit extends Cell{
 		super(x, y, mult);
 	}
 	
+	/**
+	 * Removes pedestrians from the simulation if they occupy this Cell.
+	 */
 	public void update() {
-		//remove occupant, handle statistics method and set null
-		if(this.isOccupied) {
-			//System.out.println("!");
-			if(grid.getExited().remove(this.occupant)) {
+		// remove occupant, handle statistics method and set null
+		if (this.isOccupied) {
+			if (grid.getExited().remove(this.occupant)) {
 				Pedestrian temp = (Pedestrian)this.occupant;
 				Statistics.oneLeftArea(grid.time, temp.totalSteps, temp.walkingSteps, temp.distance, this.x, this.y);
 			}
@@ -31,6 +41,9 @@ public class Exit extends Cell{
 		super.update();
 	}
 	
+	/**
+	 * Draw the exits as a red color. 
+	 */
 	public void draw(Graphics gfx) {
 		Color col = new Color(255 , 0 , 0);
 		gfx.setColor(col);

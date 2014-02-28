@@ -3,12 +3,22 @@ package cs4230.pedestrian.objects;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import cs4230.pedestrian.math.Statistics;
-
+/**
+ * Stoplight is a Cell that toggles its traversability 
+ * @author Nathan
+ */
 public class Stoplight extends Cell {
 	
 	private int lightIncrement, count, maxCounts;
 	
+	/**
+	 * Constructs a stoplight with custom parameters to define its behavior
+	 * @param x - the x location on the map
+	 * @param y - the y location on the map
+	 * @param mult - the base desirability of this cell
+	 * @param duration - the time spent in an off and on cycle
+	 * @param lightIncrement - the time that the light switches from off to on
+	 */
 	public Stoplight(int x, int y, double mult, int duration, int lightIncrement) {
 		
 		super(x,y,mult);
@@ -19,6 +29,9 @@ public class Stoplight extends Cell {
 		this.maxCounts = duration+lightIncrement;
 	}
 	
+	/**
+	 * Same as the other constructor, but can start with an offset
+	 */
 	public Stoplight(int x, int y, double mult, int duration, int lightIncrement, int startCount) {
 		
 		this(x,y,mult,lightIncrement,duration);
